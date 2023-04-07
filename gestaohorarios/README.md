@@ -32,7 +32,7 @@ gestaohorarios
 │   │   │       ├───model          # Modelos para representar entidades (p.ex., Horario)
 │   │   │       │   └───Horario.java
 │   │   │       └───service        # Serviços para executar a lógica do negócio
-│   │   │           └───HorariosService.java
+│   │   │           └───ConversorCSVJSON.java
 │   │   ├───resources
 │   │   │   ├───static             # Arquivos CSS, JavaScript e imagens
 │   │   │   ├───templates          # Templates HTML Thymeleaf
