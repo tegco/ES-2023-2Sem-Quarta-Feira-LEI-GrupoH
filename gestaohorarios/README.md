@@ -8,9 +8,8 @@ Este projeto é uma aplicação Spring Boot para gerenciamento de horários. Ele
 ## Dependências
 
 - Spring Web: Para criar uma aplicação web com Spring MVC
-- Thymeleaf: Para processar e renderizar templates HTML
 - Apache Commons CSV: Para manipular arquivos CSV
-- Jackson Databind (Incluido no Spring Web): Para manipular arquivos JSON
+- Jackson Databind: Para manipular arquivos JSON
 
 ## Executando a aplicação
 
