@@ -20,4 +20,4 @@ Também pode executar a aplicação através da linha de comando: `./mvnw spring
 
 ## Estrutura do projeto
 
-![(folder structure image)](https://github.com/tegco/ES-2023-2Sem-Quarta-Feira-LEI-GrupoH/blob/conversor-csv-json/gestaohorarios/folderstructure.svg)
+![(folder structure image)](folderstructure.svg)
