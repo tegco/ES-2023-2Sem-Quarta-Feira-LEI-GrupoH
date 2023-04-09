@@ -3,6 +3,10 @@ package pt.iscteiul.gestaohorarios.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Classe que representa uma linha(CSV) ou documento(JSON) de um horário.
+ */
+
 public class Horario {
     
     private String curso;
@@ -33,14 +37,26 @@ public class Horario {
         this.lotacaoDaSala = lotacaoDaSala;
     }
 
+    /**
+     * Devolve o curso de uma linha/documento do horário.
+     * @return o curso
+     */
     public String getCurso() {
         return curso;
     }
 
+    /**
+     * Define o curso de uma linha/documento do horário.
+     * @param curso
+     */
     public void setCurso(String curso) {
         this.curso = curso;
     }
 
+    /**
+     * Devolve o curso de uma linha/documento do horário.
+     * @return o curso
+     */
     public String getUnidadeCurricular() {
         return unidadeCurricular;
     }
