@@ -65,24 +65,24 @@ public class ConversorCSVJSON {
     	
     	CsvMapper csvMapper = new CsvMapper();
     	csvMapper.registerModule(new JavaTimeModule());
-    	
+    	CsvSchema cabecalho = csvMapper.schemaFor(Horario.class).withHeader();
     	List<Horario> horarios = new ArrayList<>();
-    	
-		CsvSchema cabecalho = csvMapper.schemaFor(Horario.class).withHeader();
 		
     	try (FileReader reader = new FileReader("data/horarios/csv/" + arquivoCSV)){
-    		
     		MappingIterator<Horario> iterador = csvMapper.readerFor(Horario.class).with(cabecalho).readValues(reader);
-    		
     		horarios = iterador.readAll();
-//    		while(iterador.hasNext()) {
-//    			Horario horario = iterador.next();
-//    			horarios.add(horario);
-//    		}
     	}
     	return horarios;
-    
     }
+    
+    public void gerarArquivoJSON(List<Horario> horarios, String arquivoJson) throws IOException {
+    	
+    	ObjectMapper objectMapper = new ObjectMapper();
+    	objectMapper.registerModule(new JavaTimeModule());
+    	objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter("data/horarios/json/" + arquivoJson), horarios);
+    	
+    }
+    
     
     // Main só para testes
     public static void main(String[] args) {
@@ -98,7 +98,10 @@ public class ConversorCSVJSON {
             System.err.println("Erro ao processar arquivos CSV/JSON: " + e.getMessage());
         }*/
         
-        String arquivoCSV = "horario-exemplo.csv";
+        // CSV->JSON
+        
+        /*String arquivoCSV = "horario-exemplo.csv";
+        String arquivoJSON = "horario-exemplo.json";
         try {
         	List<Horario> horarios = ConversorCSVJSON.lerCSV(arquivoCSV);
         	
@@ -108,16 +111,15 @@ public class ConversorCSVJSON {
         	    System.out.println(horario.toString());
         	}
         	System.out.println("Número de records: " + i);
+        	
+        	conversor.gerarArquivoJSON(horarios, arquivoJSON);
+            System.out.println("Arquivo JSON gerado com sucesso!");
         }
         
         catch (IOException e) {
             System.err.println("Erro ao processar arquivos CSV/JSON: " + e.getMessage());
-        }
+        }*/
         	
         }
-        
-        
-        
-        
     }
 //}
