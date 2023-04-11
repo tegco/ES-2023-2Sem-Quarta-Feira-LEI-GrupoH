@@ -1,7 +1,10 @@
 package pt.iscteiul.gestaohorarios.service;
 
+import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.opencsv.CSVWriter;
 import pt.iscteiul.gestaohorarios.model.Horario;
@@ -10,6 +13,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 
 public class ConversorCSVJSON {
@@ -57,6 +61,29 @@ public class ConversorCSVJSON {
         }
     }
     
+    public static List<Horario> lerCSV(String arquivoCSV) throws IOException {
+    	
+    	CsvMapper csvMapper = new CsvMapper();
+    	csvMapper.registerModule(new JavaTimeModule());
+    	
+    	List<Horario> horarios = new ArrayList<>();
+    	
+		CsvSchema cabecalho = csvMapper.schemaFor(Horario.class).withHeader();
+		
+    	try (FileReader reader = new FileReader("data/horarios/csv/" + arquivoCSV)){
+    		
+    		MappingIterator<Horario> iterador = csvMapper.readerFor(Horario.class).with(cabecalho).readValues(reader);
+    		
+    		horarios = iterador.readAll();
+//    		while(iterador.hasNext()) {
+//    			Horario horario = iterador.next();
+//    			horarios.add(horario);
+//    		}
+    	}
+    	return horarios;
+    
+    }
+    
     // Main só para testes
     public static void main(String[] args) {
         ConversorCSVJSON conversor = new ConversorCSVJSON();
@@ -70,5 +97,27 @@ public class ConversorCSVJSON {
         } catch (IOException e) {
             System.err.println("Erro ao processar arquivos CSV/JSON: " + e.getMessage());
         }*/
+        
+        String arquivoCSV = "horario-exemplo.csv";
+        try {
+        	List<Horario> horarios = ConversorCSVJSON.lerCSV(arquivoCSV);
+        	
+        	int i = 0;
+        	for (Horario horario : horarios) {
+        		i++;
+        	    System.out.println(horario.toString());
+        	}
+        	System.out.println("Número de records: " + i);
+        }
+        
+        catch (IOException e) {
+            System.err.println("Erro ao processar arquivos CSV/JSON: " + e.getMessage());
+        }
+        	
+        }
+        
+        
+        
+        
     }
-}
+//}

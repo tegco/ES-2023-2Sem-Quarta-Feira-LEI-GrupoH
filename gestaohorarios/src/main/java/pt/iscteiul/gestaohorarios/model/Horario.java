@@ -3,18 +3,36 @@ package pt.iscteiul.gestaohorarios.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"Curso", "Unidade Curricular", "Turno", "Turma", "Inscritos no turno", "Dia da semana", "Hora início da aula","Hora fim da aula","Data da aula", "Sala atribuída", "Lotação da sala"})
 public class Horario {
     
+	
+	@JsonProperty("Curso")
     private String curso;
+	@JsonProperty("Unidade Curricular")
     private String unidadeCurricular;
+	@JsonProperty("Turno")
     private String turno;
+	@JsonProperty("Turma")
     private String turma;
+	@JsonProperty("Inscritos no turno")
     private int inscritosNoTurno;
+	@JsonProperty("Dia da semana")
     private String diaDaSemana;
+	@JsonProperty("Hora início da aula")
     private LocalTime horaInicioAula;
+	@JsonProperty("Hora fim da aula")
     private LocalTime horaFimAula;
+	@JsonProperty("Data da aula")
+	@JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataDaAula;
+	@JsonProperty("Sala atribuída")
     private String salaAtribuida;
+	@JsonProperty("Lotação da sala")
     private int lotacaoDaSala;
 
     public Horario() {}
@@ -120,4 +138,14 @@ public class Horario {
     public void setLotacaoDaSala(int lotacaoDaSala) {
         this.lotacaoDaSala = lotacaoDaSala;
     }
+
+	@Override
+	public String toString() {
+		return "Horario [curso=" + curso + ", unidadeCurricular=" + unidadeCurricular + ", turno=" + turno + ", turma="
+				+ turma + ", inscritosNoTurno=" + inscritosNoTurno + ", diaDaSemana=" + diaDaSemana
+				+ ", horaInicioAula=" + horaInicioAula + ", horaFimAula=" + horaFimAula + ", dataDaAula=" + dataDaAula
+				+ ", salaAtribuida=" + salaAtribuida + ", lotacaoDaSala=" + lotacaoDaSala + "]";
+	}
+    
+    
 }
