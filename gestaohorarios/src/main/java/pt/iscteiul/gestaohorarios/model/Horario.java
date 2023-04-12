@@ -15,7 +15,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  * Inclui informacao sobre o curso, unidade curricular, turno, turma, quantidade de alunos 
  * inscritos, dia da semana, hora de inicio da aula, hora de fim da aula, sala atribuida e
  * a capacidade da sala.
+ * 
+ * @author gabriel-bitrefill
+ * @author tegco
+ * 
+ * @since 2023-4-11
  */
+
 
 @JsonPropertyOrder({"Curso", "Unidade Curricular", "Turno", "Turma", "Inscritos no turno", "Dia da semana", "Hora início da aula","Hora fim da aula","Data da aula", "Sala atribuída", "Lotação da sala"})
 
