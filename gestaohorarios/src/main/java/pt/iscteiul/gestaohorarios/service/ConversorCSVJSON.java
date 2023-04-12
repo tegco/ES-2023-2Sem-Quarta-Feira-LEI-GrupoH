@@ -67,7 +67,7 @@ public class ConversorCSVJSON {
 
             // Escreve os registros no arquivo CSV
             for (Horario horario : horarios) {
-                String[] record = new String[] {
+                String[] registo = new String[] {
                     horario.getCurso(),
                     horario.getUnidadeCurricular(),
                     horario.getTurno(),
@@ -80,7 +80,7 @@ public class ConversorCSVJSON {
                     horario.getSalaAtribuida(),
                     Integer.toString(horario.getLotacaoDaSala())
                 };
-                writer.writeNext(record);
+                writer.writeNext(registo);
             }
         }
     }
