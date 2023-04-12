@@ -121,45 +121,5 @@ public class ConversorCSVJSON {
     	objectMapper.registerModule(new JavaTimeModule());
     	objectMapper.writerWithDefaultPrettyPrinter().writeValue(new FileWriter("data/horarios/json/" + arquivoJSON), horarios);
     	
-    }
-    
-    
-    // Main só para testes
-    public static void main(String[] args) {
-        ConversorCSVJSON conversor = new ConversorCSVJSON();
-        /*String arquivoCSV = "horario-exemplo.csv";
-        String arquivoJSON = "horario-exemplo.json";
-
-        try {
-            List<Horario> horarios = conversor.lerJSON(arquivoJSON);
-            conversor.gerarArquivoCSV(horarios, arquivoCSV);
-            System.out.println("Arquivo CSV gerado com sucesso!");
-        } catch (IOException e) {
-            System.err.println("Erro ao processar arquivos CSV/JSON: " + e.getMessage());
-        }*/
-        
-        // CSV->JSON
-        
-        /*String arquivoCSV = "horario-exemplo.csv";
-        String arquivoJSON = "horario-exemplo.json";
-        try {
-        	List<Horario> horarios = ConversorCSVJSON.lerCSV(arquivoCSV);
-        	
-        	int i = 0;
-        	for (Horario horario : horarios) {
-        		i++;
-        	    System.out.println(horario.toString());
-        	}
-        	System.out.println("Número de records: " + i);
-        	
-        	conversor.gerarArquivoJSON(horarios, arquivoJSON);
-            System.out.println("Arquivo JSON gerado com sucesso!");
-        }
-        
-        catch (IOException e) {
-            System.err.println("Erro ao processar arquivos CSV/JSON: " + e.getMessage());
-        }*/
-        	
-        }
-    }
-//}
+    } 
+}
