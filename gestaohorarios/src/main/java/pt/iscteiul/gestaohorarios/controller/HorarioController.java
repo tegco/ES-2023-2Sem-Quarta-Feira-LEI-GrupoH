@@ -15,12 +15,12 @@ public class HorarioController {
 //    @Autowired
 //    private ConversorCSVJSON conversorCSVJSON;
 
-    @PostMapping("/upload")
+    @PostMapping("/upload/file")
     public ResponseEntity<String> getFicheiro(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok().body("file received successfully");
     }
 
-    @PostMapping("/store/url")
+    @PostMapping("/upload/url")
     public ResponseEntity<String> getURL(@RequestBody Map<String, String> payload) {
         return ResponseEntity.ok().body("file received successfully");
     }
