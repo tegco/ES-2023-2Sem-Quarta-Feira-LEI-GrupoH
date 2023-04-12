@@ -7,6 +7,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.opencsv.CSVWriter;
+import org.springframework.stereotype.Service;
 import pt.iscteiul.gestaohorarios.model.Horario;
 
 import java.io.FileReader;
@@ -27,6 +28,7 @@ import java.time.format.DateTimeFormatter;
  * @since 2023-4-11
  *
  */
+ @Service
 public class ConversorCSVJSON {
 	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
