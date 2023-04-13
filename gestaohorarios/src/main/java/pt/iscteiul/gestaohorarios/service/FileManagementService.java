@@ -70,10 +70,9 @@ public class FileManagementService {
                     .filter(f -> f.getFileName().toString().equals(name))
                     .toList();
 
-            if (!wantedFile.isEmpty()) {
-                System.out.println(wantedFile);
+            if (!wantedFile.isEmpty())
                 return new UrlResource(wantedFile.get(0).toUri());
-            }
+
 
         } catch (IOException e) {
             System.err.println("Erro ao buscar o ficheiro");
