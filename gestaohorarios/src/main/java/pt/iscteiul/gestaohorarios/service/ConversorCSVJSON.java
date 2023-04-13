@@ -93,7 +93,7 @@ public class ConversorCSVJSON {
      * @exception IOException Se existir erro de input.
      * @return List<Horario> devolve uma lista com o horário contido no ficheiro dado como argumento.
      */
-    public static List<Horario> lerCSV(String arquivoCSV) throws IOException {
+    public List<Horario> lerCSV(String arquivoCSV) throws IOException {
     	
     	CsvMapper csvMapper = new CsvMapper();
     	csvMapper.registerModule(new JavaTimeModule());
