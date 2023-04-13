@@ -37,7 +37,7 @@ public class ConversorCSVJSON {
      * @exception IOException Se existir erro de input.
      * @return List<Horario> devolve uma lista com o horário contido no ficheiro dado como argumento.
      */
-    public List<Horario> lerJSON(String arquivoJSON) throws IOException {
+    public static List<Horario> lerJSON(String arquivoJSON) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
             
@@ -59,7 +59,7 @@ public class ConversorCSVJSON {
      * @exception IOException Se existir erro de input.
      * @return Nada.
      */
-    public void gerarArquivoCSV(List<Horario> horarios, String arquivoCSV) throws IOException {
+    public static void gerarArquivoCSV(List<Horario> horarios, String arquivoCSV) throws IOException {
         try (CSVWriter writer = new CSVWriter(new FileWriter("data/horarios/csv/" + arquivoCSV))) {
             // Escreve o cabeçalho do arquivo CSV
             String[] header = { "Curso", "Unidade Curricular", "Turno", "Turma", "Inscritos no Turno", "Dia da Semana", "Hora Início Aula", "Hora Fim Aula", "Data da Aula", "Sala Atribuída", "Lotação da Sala" };
@@ -115,7 +115,7 @@ public class ConversorCSVJSON {
      * @exception IOException Se existir erro de input.
      * @return Nada.
      */
-    public void gerarArquivoJSON(List<Horario> horarios, String arquivoJSON) throws IOException {
+    public static void gerarArquivoJSON(List<Horario> horarios, String arquivoJSON) throws IOException {
     	
     	ObjectMapper objectMapper = new ObjectMapper();
     	objectMapper.registerModule(new JavaTimeModule());
