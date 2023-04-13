@@ -1,5 +1,6 @@
 package pt.iscteiul.gestaohorarios.service;
 
+import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -46,10 +47,9 @@ public class FileManagementService {
             }
 
 
-        } catch (IOException e) {
-            //Talvez fazer log do erro?
+        } catch (IOException | CsvException e) {
             System.err.println("Erro ao guardar ficheiro");
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
             return false;
         }
         return true;
