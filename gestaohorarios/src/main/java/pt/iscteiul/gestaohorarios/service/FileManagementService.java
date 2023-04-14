@@ -2,7 +2,6 @@ package pt.iscteiul.gestaohorarios.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pt.iscteiul.gestaohorarios.model.Horario;
@@ -11,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,38 +32,23 @@ public class FileManagementService {
                 file.transferTo(destination);
 
                 //Fazer a conversão para JSON
-                List<Horario> horario = null;
-				try {
-					horario = ConversorCSVJSON.lerCSV(originalFileName);
-					System.out.println("Convertido com sucesso");
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				ConversorCSVJSON.gerarArquivoJSON(horario, originalFileName.split("[.]")[0] + ".json");
+                List<Horario> horario = conversorCSVJSON.lerCSV(originalFileName);
+                conversorCSVJSON.gerarArquivoJSON(horario, originalFileName.split("[.]")[0] + ".json");
 
             } else {
                 File destination = new File(destinationPath + "\\" + file.getOriginalFilename());
                 file.transferTo(destination);
 
                 //Fazer a conversão para CSV
-                List<Horario> horario = null;
-				try {
-					horario = ConversorCSVJSON.lerJSON(originalFileName);
-					System.out.println("Convertido com sucesso");
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                ConversorCSVJSON.gerarArquivoCSV(horario, originalFileName.split("[.]")[0] + ".csv");
+                List<Horario> horario = conversorCSVJSON.lerJSON(originalFileName);
+                conversorCSVJSON.gerarArquivoCSV(horario, originalFileName.split("[.]")[0] + ".csv");
 
             }
 
 
         } catch (IOException e) {
-            //Talvez fazer log do erro?
             System.err.println("Erro ao guardar ficheiro");
-            System.out.println(e.getStackTrace());
+            e.printStackTrace();
             return false;
         }
         return true;
@@ -86,40 +69,15 @@ public class FileManagementService {
                     .filter(f -> f.getFileName().toString().equals(name))
                     .toList();
 
-            if (!wantedFile.isEmpty()) {
-                System.out.println(wantedFile);
+            if (!wantedFile.isEmpty())
                 return new UrlResource(wantedFile.get(0).toUri());
-            }
+
 
         } catch (IOException e) {
             System.err.println("Erro ao buscar o ficheiro");
         }
 
         return null;
-    }
-    
- public static void main(String[] args) {
-    	
-        ConversorCSVJSON conversor = new ConversorCSVJSON();
-        
-        String arquivoCSV = "horario-exemplo.csv";
-        String arquivoJSON = "horario-exemplo.json";
-        
-        FileManagementService file = new FileManagementService();
-        Path path = Paths.get("data/horarios/csv/" + arquivoCSV);
-        String originalFileName ="horario-exemplo.csv";
-        //String originalFileName ="horario-exemplo.json";
-        String contentType = "csv";
-        //String contentType = "json";
-        byte[] content = null;
-        try {
-            content = Files.readAllBytes(path);
-        } catch (final IOException e) {
-        }
-        MultipartFile result = new MockMultipartFile(arquivoCSV, arquivoCSV, contentType, content);
-        
-        file.uploadFile(result);
-        
     }
 
 }
