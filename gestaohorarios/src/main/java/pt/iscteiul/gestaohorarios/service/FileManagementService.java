@@ -47,7 +47,7 @@ public class FileManagementService {
             }
 
 
-        } catch (IOException | CsvException e) {
+        } catch (IOException e) {
             System.err.println("Erro ao guardar ficheiro");
             e.printStackTrace();
             return false;
