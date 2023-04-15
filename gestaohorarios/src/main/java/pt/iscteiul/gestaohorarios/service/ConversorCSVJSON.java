@@ -8,6 +8,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvParser;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.opencsv.CSVWriter;
+import com.opencsv.ICSVWriter;
+
 import pt.iscteiul.gestaohorarios.model.Horario;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -66,9 +68,9 @@ public class ConversorCSVJSON {
         try (CSVWriter writer = new CSVWriter(
                 new FileWriter("data/horarios/csv/" + arquivoCSV),
                 ';',
-                CSVWriter.NO_QUOTE_CHARACTER,
-                CSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                CSVWriter.DEFAULT_LINE_END
+                ICSVWriter.NO_QUOTE_CHARACTER,
+                ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                ICSVWriter.DEFAULT_LINE_END
         )) {
             // Escreve o cabeçalho do arquivo CSV
             String[] header = { "Curso", "Unidade Curricular", "Turno", "Turma", "Inscritos no turno", "Dia da semana", "Hora início da aula", "Hora fim da aula", "Data da aula", "Sala atribuída à aula", "Lotação da sala" };
