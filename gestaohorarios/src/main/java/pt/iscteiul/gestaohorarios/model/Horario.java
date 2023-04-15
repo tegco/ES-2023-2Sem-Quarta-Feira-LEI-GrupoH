@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
  */
 
 
-@JsonPropertyOrder({"Curso", "Unidade Curricular", "Turno", "Turma", "Inscritos no turno", "Dia da semana", "Hora início da aula","Hora fim da aula","Data da aula", "Sala atribuída", "Lotação da sala"})
+@JsonPropertyOrder({ "Curso", "Unidade Curricular", "Turno", "Turma", "Inscritos no turno", "Dia da semana", "Hora início da aula", "Hora fim da aula", "Data da aula", "Sala atribuída à aula", "Lotação da sala"})
 
 public class Horario {
     
@@ -33,7 +33,7 @@ public class Horario {
     private String unidadeCurricular;
 	@JsonProperty("Turno")
     private String turno;
-	@JsonProperty("Turma")
+	@JsonProperty("Turma") 
     private String turma;
 	@JsonProperty("Inscritos no turno")
     private int inscritosNoTurno;
@@ -46,7 +46,7 @@ public class Horario {
 	@JsonProperty("Data da aula")
 	@JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataDaAula;
-	@JsonProperty("Sala atribuída")
+	@JsonProperty("Sala atribuída à aula")
     private String salaAtribuida;
 	@JsonProperty("Lotação da sala")
     private int lotacaoDaSala;
