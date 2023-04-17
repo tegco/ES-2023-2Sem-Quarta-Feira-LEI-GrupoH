@@ -3,7 +3,6 @@ package pt.iscteiul.gestaohorarios.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.logging.LoggingSystem;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,24 +31,19 @@ public class FileManagementService {
             if (Objects.requireNonNull(originalFileName).contains("csv")) {
                 destinationPath = CSV_UPLOAD_PATH;
 
-                File destination = new File(destinationPath + "\\" + file.getOriginalFilename());
-                file.transferTo(destination);
+                saveFile(file, destinationPath);
 
                 //Fazer a conversão para JSON
                 List<Horario> horario = conversorCSVJSON.lerCSV(originalFileName);
                 conversorCSVJSON.gerarArquivoJSON(horario, originalFileName.split("[.]")[0] + ".json");
 
             } else {
-                File destination = new File(destinationPath + "\\" + file.getOriginalFilename());
-                file.transferTo(destination);
+                saveFile(file, destinationPath);
 
                 //Fazer a conversão para CSV
                 List<Horario> horario = conversorCSVJSON.lerJSON(originalFileName);
                 conversorCSVJSON.gerarArquivoCSV(horario, originalFileName.split("[.]")[0] + ".csv");
-
             }
-
-
         } catch (IOException e) {
             logger.error("Erro ao guardar o ficheiro", e);
             return false;
@@ -57,9 +51,9 @@ public class FileManagementService {
         return true;
     }
 
-    public boolean uploadFileUsingURL(String fileURL) {
-        //TODO
-        return false;
+    private void saveFile(MultipartFile file, Path destinationPath) throws IOException {
+        File destination = new File(destinationPath + "\\" + file.getOriginalFilename());
+        file.transferTo(destination);
     }
 
     public UrlResource getFile(String name) {
@@ -67,14 +61,11 @@ public class FileManagementService {
         if (name.contains("csv"))
             searchingPath = CSV_UPLOAD_PATH;
         try (var wantedDir = Files.list(searchingPath)) {
-
-
             var wantedFile = wantedDir.filter(f -> f.getFileName().toString().equals(name))
                     .toList();
 
             if (!wantedFile.isEmpty())
                 return new UrlResource(wantedFile.get(0).toUri());
-
 
         } catch (IOException e) {
             logger.error("Erro ao buscar o ficheiro", e);
