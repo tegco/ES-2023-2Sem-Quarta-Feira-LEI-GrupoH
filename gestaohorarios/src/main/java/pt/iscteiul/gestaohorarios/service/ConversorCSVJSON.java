@@ -9,6 +9,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.opencsv.CSVWriter;
 import com.opencsv.ICSVWriter;
+
 import pt.iscteiul.gestaohorarios.model.Horario;
 import java.io.FileReader;
 import java.io.FileWriter;
