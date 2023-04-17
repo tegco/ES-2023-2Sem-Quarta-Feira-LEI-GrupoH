@@ -27,6 +27,15 @@ public class HorarioController {
         return ResponseEntity.ok().body("File " + file.getOriginalFilename() + " received successfully");
     }
 
+    @PostMapping("/uploadUrl")
+    public ResponseEntity<String> uploadURL(@RequestBody String fileURL) {
+        boolean uploadSuccessful = fileManagementService.uploadFileUsingURL(fileURL);
+        if(!uploadSuccessful)
+            return ResponseEntity.internalServerError().body("The server had trouble getting your file");
+
+        return ResponseEntity.ok().body("file url received successfully");
+    }
+
     @GetMapping("/downloadFile/{name}")
     public ResponseEntity<UrlResource> getCSVFile(@PathVariable("name") String fileName) {
 

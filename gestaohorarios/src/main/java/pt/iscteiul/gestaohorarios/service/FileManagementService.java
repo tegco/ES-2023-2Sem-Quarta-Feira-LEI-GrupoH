@@ -56,6 +56,11 @@ public class FileManagementService {
         file.transferTo(destination);
     }
 
+    public boolean uploadFileUsingURL(String fileURL) {
+        //TODO
+        return false;
+    }
+
     public UrlResource getFile(String name) {
         Path searchingPath = JSON_UPLOAD_PATH;
         if (name.contains("csv"))
