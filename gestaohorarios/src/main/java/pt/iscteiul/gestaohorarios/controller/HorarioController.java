@@ -1,13 +1,11 @@
 package pt.iscteiul.gestaohorarios.controller;
 
+import java.net.MalformedURLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 import pt.iscteiul.gestaohorarios.service.FileManagementService;
 
 
@@ -28,7 +26,7 @@ public class HorarioController {
     }
 
     @PostMapping("/uploadUrl")
-    public ResponseEntity<String> uploadURL(@RequestBody String fileURL) {
+    public ResponseEntity<String> uploadURL(@RequestParam("file") String fileURL) throws MalformedURLException {
         boolean uploadSuccessful = fileManagementService.uploadFileUsingURL(fileURL);
         if(!uploadSuccessful)
             return ResponseEntity.internalServerError().body("The server had trouble getting your file");
@@ -36,17 +34,17 @@ public class HorarioController {
         return ResponseEntity.ok().body("file url received successfully");
     }
 
-    @GetMapping("/downloadFile/{name}")
-    public ResponseEntity<UrlResource> getCSVFile(@PathVariable("name") String fileName) {
-
-        UrlResource resource = fileManagementService.getFile(fileName);
-        if (resource == null)
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "File not Found");
-
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
-                .body(resource);
-    }
+//    @GetMapping("/downloadFile/{name}")
+//    public ResponseEntity<UrlResource> getCSVFile(@PathVariable("name") String fileName) {
+//
+//        UrlResource resource = fileManagementService.getFile(fileName);
+//        if (resource == null)
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "File not Found");
+//
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
+//                .body(resource);
+//    }
 
 }
