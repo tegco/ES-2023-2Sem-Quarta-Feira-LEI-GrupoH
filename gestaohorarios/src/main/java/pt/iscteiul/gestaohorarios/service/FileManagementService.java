@@ -3,6 +3,7 @@ package pt.iscteiul.gestaohorarios.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
@@ -13,6 +14,7 @@ import pt.iscteiul.gestaohorarios.model.Horario;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -92,22 +94,22 @@ public class FileManagementService {
 		return true;
 	}
 
-	//    public UrlResource getFile(String name) {
-	//        Path searchingPath = JSON_UPLOAD_PATH;
-	//        if (name.contains("csv"))
-	//            searchingPath = CSV_UPLOAD_PATH;
-	//        try (var wantedDir = Files.list(searchingPath)) {
-	//            var wantedFile = wantedDir.filter(f -> f.getFileName().toString().equals(name))
-	//                    .toList();
-	//
-	//            if (!wantedFile.isEmpty())
-	//                return new UrlResource(wantedFile.get(0).toUri());
-	//
-	//        } catch (IOException e) {
-	//            logger.error("Erro ao buscar o ficheiro", e);
-	//        }
-	//
-	//        return null;
-	//    }
+	    public UrlResource getFile(String name) {
+	        Path searchingPath = JSON_UPLOAD_PATH;
+	        if (name.contains("csv"))
+	            searchingPath = CSV_UPLOAD_PATH;
+	        try (var wantedDir = Files.list(searchingPath)) {
+	            var wantedFile = wantedDir.filter(f -> f.getFileName().toString().equals(name))
+	                    .toList();
+
+	            if (!wantedFile.isEmpty())
+	                return new UrlResource(wantedFile.get(0).toUri());
+
+	        } catch (IOException e) {
+	            logger.error("Erro ao buscar o ficheiro", e);
+	        }
+
+	        return null;
+	    }
 
 }
