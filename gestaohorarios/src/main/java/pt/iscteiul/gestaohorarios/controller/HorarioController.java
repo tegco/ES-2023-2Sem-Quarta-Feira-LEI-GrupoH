@@ -32,7 +32,7 @@ public class HorarioController {
     @PostMapping("/uploadUrl")
     public ResponseEntity<String> uploadURL(@RequestParam("file") String fileURL) throws MalformedURLException {
         boolean uploadSuccessful = fileManagementService.uploadFileUsingURL(fileURL);
-        if(!uploadSuccessful)
+        if (!uploadSuccessful)
             return ResponseEntity.internalServerError().body("The server had trouble getting your file");
 
         return ResponseEntity.ok().body("file url received successfully");
