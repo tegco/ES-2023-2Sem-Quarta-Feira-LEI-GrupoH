@@ -13,18 +13,34 @@ import org.springframework.web.server.ResponseStatusException;
 import pt.iscteiul.gestaohorarios.service.FileManagementService;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class HorarioController.
+ */
 @RequestMapping("/api/v1/horario")
 @RestController
 public class HorarioController {
 
+	/** The file management service. */
 	@Autowired
 	    private FileManagementService fileManagementService;
 	
+	/**
+	 * Instantiates a new horario controller.
+	 *
+	 * @param file the file
+	 */
 	public HorarioController(FileManagementService file){
 		this.fileManagementService = file;
 	}
 	 	
 
+    /**
+     * Upload ficheiro.
+     *
+     * @param file the file
+     * @return the response entity
+     */
     @PostMapping("/uploadFile")
     public ResponseEntity<String> uploadFicheiro(@RequestParam("file") MultipartFile file) {
         boolean uploadSuccessful = fileManagementService.uploadFile(file);
@@ -34,6 +50,13 @@ public class HorarioController {
         return ResponseEntity.ok().body("File " + file.getOriginalFilename() + " received successfully");
     }
 
+    /**
+     * Upload URL.
+     *
+     * @param fileURL the file URL
+     * @return the response entity
+     * @throws MalformedURLException the malformed URL exception
+     */
     @PostMapping("/uploadUrl")
     public ResponseEntity<String> uploadURL(@RequestParam("file") String fileURL) throws MalformedURLException {
         boolean uploadSuccessful = fileManagementService.uploadFileUsingURL(fileURL);
@@ -43,6 +66,12 @@ public class HorarioController {
         return ResponseEntity.ok().body("file url received successfully");
     }
 
+    /**
+     * Gets the CSV file.
+     *
+     * @param fileName the file name
+     * @return the CSV file
+     */
     @GetMapping("/downloadFile/{name}")
     public ResponseEntity<UrlResource> getCSVFile(@PathVariable("name") String fileName) {
 

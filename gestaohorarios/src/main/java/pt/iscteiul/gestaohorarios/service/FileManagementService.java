@@ -23,14 +23,32 @@ import java.util.List;
 import java.util.Objects;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FileManagementService.
+ */
 @Service
 public class FileManagementService {
+    
+    /** The conversor CSVJSON. */
     @Autowired
     private ConversorCSVJSON conversorCSVJSON = new ConversorCSVJSON();
+    
+    /** The Constant CSV_UPLOAD_PATH. */
     public static final Path CSV_UPLOAD_PATH = Path.of(System.getProperty("user.dir") + "/data/horarios/csv/");
+    
+    /** The Constant JSON_UPLOAD_PATH. */
     public static final Path JSON_UPLOAD_PATH = Path.of(System.getProperty("user.dir") + "/data/horarios/json/");
+    
+    /** The logger. */
     Logger logger = LoggerFactory.getLogger(FileManagementService.class);
 
+    /**
+     * Upload file.
+     *
+     * @param file the file
+     * @return true, if successful
+     */
     public boolean uploadFile(MultipartFile file) {
         Path destinationPath = JSON_UPLOAD_PATH;
         String originalFileName = file.getOriginalFilename();
@@ -58,11 +76,25 @@ public class FileManagementService {
         return true;
     }
 
+    /**
+     * Save file.
+     *
+     * @param file the file
+     * @param destinationPath the destination path
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     private void saveFile(MultipartFile file, Path destinationPath) throws IOException {
         File destination = new File(destinationPath + "\\" + file.getOriginalFilename());
         file.transferTo(destination);
     }
 
+    /**
+     * Upload file using URL.
+     *
+     * @param fileURL the file URL
+     * @return true, if successful
+     * @throws MalformedURLException the malformed URL exception
+     */
     public boolean uploadFileUsingURL(String fileURL) throws MalformedURLException {
 
         RestTemplate rest = new RestTemplate();
@@ -93,6 +125,12 @@ public class FileManagementService {
         return true;
     }
 
+    /**
+     * Gets the file.
+     *
+     * @param name the name
+     * @return the file
+     */
     public UrlResource getFile(String name) {
         Path searchingPath = JSON_UPLOAD_PATH;
         if (name.contains("csv"))
