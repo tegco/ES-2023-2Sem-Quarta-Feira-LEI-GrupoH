@@ -41,7 +41,7 @@ public class ConversorCSVJSON {
      * Recebe o nome do ficheiro JSON e devolve uma lista com o horário contido no ficheiro.
      *
      * @param arquivoJSON o nome do ficheiro.
-     * @return List<Horario> devolve uma lista com o horário contido no ficheiro dado como argumento.
+     * @return List&lt;Horario&gt; devolve uma lista com o horário contido no ficheiro dado como argumento.
      * @throws IOException Se existir erro de input.
      */
     public List<Horario> lerJSON(String arquivoJSON) throws IOException {
@@ -65,7 +65,6 @@ public class ConversorCSVJSON {
      *
      * @param horarios   lista com o horário a colocar no ficheiro.
      * @param arquivoCSV o nome do ficheiro a ser gerado.
-     * @return Nada.
      * @throws IOException Se existir erro de input.
      */
     public void gerarArquivoCSV(List<Horario> horarios, String arquivoCSV) throws IOException {
@@ -104,7 +103,7 @@ public class ConversorCSVJSON {
      * Recebe o nome do ficheiro CSV e devolve uma lista com o horário contido no ficheiro.
      *
      * @param arquivoCSV o nome do ficheiro.
-     * @return List<Horario> devolve uma lista com o horário contido no ficheiro dado como argumento.
+     * @return List&lt;Horario&gt; devolve uma lista com o horário contido no ficheiro dado como argumento.
      * @throws IOException Se existir erro de input.
      */
     public List<Horario> lerCSV(String arquivoCSV) throws IOException {
@@ -133,7 +132,6 @@ public class ConversorCSVJSON {
      *
      * @param horarios    lista com o horário a colocar no ficheiro.
      * @param arquivoJSON o nome do ficheiro a ser gerado.
-     * @return Nada.
      * @throws IOException Se existir erro de input.
      */
     public void gerarArquivoJSON(List<Horario> horarios, String arquivoJSON) throws IOException {

@@ -1,0 +1,25 @@
+[ {
+  "Curso" : "ME",
+  "Unidade Curricular" : "Teoria dos Jogos e dos Contratos",
+  "Turno" : "01789TP01",
+  "Turma" : "MEA1",
+  "Inscritos no turno" : 30,
+  "Dia da semana" : "Sex",
+  "Hora início da aula" : "13:00:00",
+  "Hora fim da aula" : "14:30:00",
+  "Data da aula" : "02/12/2022",
+  "Sala atribuída à aula" : "AA2.25",
+  "Lotação da sala" : 34
+}, {
+  "Curso" : "",
+  "Unidade Curricular" : "",
+  "Turno" : "",
+  "Turma" : "",
+  "Inscritos no turno" : 0,
+  "Dia da semana" : "",
+  "Hora início da aula" : "13:00:00",
+  "Hora fim da aula" : "14:30:00",
+  "Data da aula" : "02/12/2022",
+  "Sala atribuída à aula" : "",
+  "Lotação da sala" : 0
+} ]
