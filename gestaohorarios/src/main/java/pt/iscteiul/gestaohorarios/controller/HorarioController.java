@@ -60,7 +60,7 @@ public class HorarioController {
      * @return Resposta HTTP a reportar o sucesso (código 200) ou insucesso (código 500) da operação.
      */
     @PostMapping("/uploadUrl")
-    public ResponseEntity<String> uploadURL(@RequestParam("file") String fileURL) {
+    public ResponseEntity<String> uploadURL(@RequestBody String fileURL) {
 
         boolean uploadSuccessful = fileManagementService.uploadFileUsingURL(fileURL);
         if (!uploadSuccessful)

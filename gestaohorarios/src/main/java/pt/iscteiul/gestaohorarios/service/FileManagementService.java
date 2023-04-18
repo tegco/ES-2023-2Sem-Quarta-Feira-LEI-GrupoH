@@ -34,7 +34,7 @@ import java.util.Objects;
 public class FileManagementService {
 
     @Autowired
-    private ConversorCSVJSON conversorCSVJSON = new ConversorCSVJSON();
+    private ConversorCSVJSON conversorCSVJSON;
 
     /**
      * Diretoria onde ficheiros CSV Recebidos irão ser guardados.
