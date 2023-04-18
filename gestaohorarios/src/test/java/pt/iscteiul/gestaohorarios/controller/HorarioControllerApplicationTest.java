@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import pt.iscteiul.gestaohorarios.service.FileManagementService;
 
@@ -22,6 +25,17 @@ class HorarioControllerApplicationTest {
 	@BeforeEach
     void setUp() {
         controller = new HorarioController(new FileManagementService());
+        
+		List<File> files = new ArrayList<>();
+		files.add(new File("data/horarios/json/Test-horario-exemplo-professor.json"));
+		files.add(new File("data/horarios/csv/Test-horario-exemplo-professor.csv"));
+		files.add(new File("data/horarios/json/BadFileTest.json"));
+		files.add(new File("data/horarios/csv/BadFileTest.csv"));
+		files.add(new File("data/horarios/csv/urltest.csv"));
+		files.add(new File("data/horarios/json/urltest.json"));
+		for (File file : files)
+			if (file.exists())
+				file.delete();
     }
 	
     @Test
@@ -67,19 +81,24 @@ class HorarioControllerApplicationTest {
     
     @Test
     void uploadURLTest() throws IOException {
-    //TODO
+    	 ResponseEntity<String> response = controller.uploadURL("https://raw.githubusercontent.com/malca1-iscte/urltest/main/urltest.csv");
+    	 
+    	 assertEquals(HttpStatus.OK,response.getStatusCode());
+    	 assertEquals("file url received successfully",response.getBody());
     }
     
     @Test
     void getCSVFileTest() throws IOException {
     	ResponseEntity<?> goodResponse = controller.getCSVFile("horario-exemplo-professor.csv");
-    	ResponseEntity<?> badResponse = controller.getCSVFile("NaoExiste.csv");
     	
     	assertEquals(HttpStatus.OK,goodResponse.getStatusCode());
     	assertEquals(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE),goodResponse.getHeaders().getContentType());
     	
-    	assertEquals(HttpStatus.NOT_FOUND,badResponse.getStatusCode());
-    	assertEquals("File not found",badResponse.getBody());
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class,
+                () -> controller.getCSVFile("NaoExiste.csv"));
+        System.out.println(exception.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+    	assertEquals("File not Found",exception.getBody().getDetail());
     
     }
     

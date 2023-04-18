@@ -11,8 +11,12 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.nio.file.Path;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.core.io.UrlResource;
 import org.springframework.mock.web.MockMultipartFile;
 
 class FileManagementServiceApplicationTest {
@@ -21,7 +25,20 @@ class FileManagementServiceApplicationTest {
 		List<File> files = new ArrayList<>();
 		files.add(new File("data/horarios/json/Test-horario-exemplo-professor.json"));
 		files.add(new File("data/horarios/csv/Test-horario-exemplo-professor.csv"));
-		//files.add(new File("data/horarios/csv/addresses.csv"));
+		files.add(new File("data/horarios/csv/urltest.csv"));
+		files.add(new File("data/horarios/json/urltest.json"));
+		for (File file : files)
+			if (file.exists())
+				file.delete();
+	}
+	
+	@AfterEach
+	void tearDown() throws Exception {
+		List<File> files = new ArrayList<>();
+		files.add(new File("data/horarios/json/Test-horario-exemplo-professor.json"));
+		files.add(new File("data/horarios/csv/Test-horario-exemplo-professor.csv"));
+		files.add(new File("data/horarios/csv/urltest.csv"));
+		files.add(new File("data/horarios/json/urltest.json"));
 		for (File file : files)
 			if (file.exists())
 				file.delete();
@@ -60,31 +77,32 @@ class FileManagementServiceApplicationTest {
 		assertFalse(b);
 	}
 	
-	
-
 	@Test
 	void uploadFileUsingURLCSVTest() throws MalformedURLException {
-		assertFalse(Files.exists(Paths.get("data/horarios/csv/addresses.csv")));
-        boolean b = (new FileManagementService()).uploadFileUsingURL("https://people.sc.fsu.edu/~jburkardt/data/csv/addresses.csv");
-        assertTrue(Files.exists(Paths.get("data/horarios/csv/addresses.csv")));
+		assertFalse(Files.exists(Paths.get("data/horarios/csv/urltest.csv")));
+        boolean b = (new FileManagementService()).uploadFileUsingURL("https://raw.githubusercontent.com/malca1-iscte/urltest/main/urltest.csv");
+        assertTrue(Files.exists(Paths.get("data/horarios/csv/urltest.csv")));
 		assertTrue(b);
 	}
 	
 	@Test
 	void uploadFileUsingURLJSONTest() throws MalformedURLException {
-		assertFalse(Files.exists(Paths.get("data/horarios/csv/addresses.csv")));
-        boolean b = (new FileManagementService()).uploadFileUsingURL("https://people.sc.fsu.edu/~jburkardt/data/csv/addresses.csv");
-        assertTrue(Files.exists(Paths.get("data/horarios/csv/addresses.csv")));
+		assertFalse(Files.exists(Paths.get("data/horarios/json/urltest.json")));
+        boolean b = (new FileManagementService()).uploadFileUsingURL("https://raw.githubusercontent.com/malca1-iscte/urltest/main/urltest.json");
+        assertTrue(Files.exists(Paths.get("data/horarios/json/urltest.json")));
 		assertTrue(b);
 	}
 	
-	
-	
-	
 	@Test
-	void getFileTest() {
-		
+	void getFileCSVTest() throws MalformedURLException {
+		Path path = Path.of((FileManagementService.CSV_UPLOAD_PATH + "/horario-exemplo-professor.csv"));
+		assertEquals(new UrlResource(path.toUri()), new FileManagementService().getFile("horario-exemplo-professor.csv"));
 	}
 	
+	@Test
+	void getFileJSONTest() throws MalformedURLException {
+		Path path = Path.of((FileManagementService.JSON_UPLOAD_PATH + "/horario-exemplo-professor.json"));
+		assertEquals(new UrlResource(path.toUri()), new FileManagementService().getFile("horario-exemplo-professor.json"));
+	}
 	
 }
