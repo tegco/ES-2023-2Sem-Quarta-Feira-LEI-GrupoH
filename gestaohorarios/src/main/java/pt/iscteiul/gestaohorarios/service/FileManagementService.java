@@ -23,24 +23,26 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * The Class FileManagementService.
+ * A classe FileManagementService tem como objetivo incorporar
+ * todos os métodos necessários para adicionar/buscar ficheiros.
+ *
+ * @author gpjle
+ * @author tegco
+ * @since 2023-4-17
  */
 @Service
 public class FileManagementService {
 
-    /**
-     * The conversor CSVJSON.
-     */
     @Autowired
     private ConversorCSVJSON conversorCSVJSON = new ConversorCSVJSON();
 
     /**
-     * The Constant CSV_UPLOAD_PATH.
+     * Diretoria onde ficheiros CSV Recebidos irão ser guardados.
      */
     public static final Path CSV_UPLOAD_PATH = Path.of(System.getProperty("user.dir") + "/data/horarios/csv/");
 
     /**
-     * The Constant JSON_UPLOAD_PATH.
+     * Diretoria onde ficheiros JSON Recebidos irão ser guardados.
      */
     public static final Path JSON_UPLOAD_PATH = Path.of(System.getProperty("user.dir") + "/data/horarios/json/");
 
@@ -50,10 +52,11 @@ public class FileManagementService {
     Logger logger = LoggerFactory.getLogger(FileManagementService.class);
 
     /**
-     * Upload file.
+     * Guarda ficheiros JSON e CSV nas suas determinadas diretorias.
+     * Converte e cria o ficheiro equivalente em JSON, se o file for CSV e vice-versa.
      *
-     * @param file the file
-     * @return true, if successful
+     * @param file ficheiro recebido via HTTP.
+     * @return true, se o ficheiro for guardado na diretoria com sucesso.
      */
     public boolean uploadFile(MultipartFile file) {
         Path destinationPath = JSON_UPLOAD_PATH;
@@ -82,10 +85,10 @@ public class FileManagementService {
     }
 
     /**
-     * Save file.
+     * Método responsável por adicionar o ficheiro na diretoria destino.
      *
-     * @param file            the file
-     * @param destinationPath the destination path
+     * @param file            ficheiro recebido via HTTP.
+     * @param destinationPath diretoria destino.
      * @throws IOException Signals that an I/O exception has occurred.
      */
     private void saveFile(MultipartFile file, Path destinationPath) throws IOException {
@@ -94,52 +97,44 @@ public class FileManagementService {
     }
 
     /**
-     * Upload file using URL.
+     * Recebe o URL onde está localizado o ficheiro que se pretence adicionar à aplicação
+     * e guarda-o, chamando a função uploadFile.
      *
-     * @param fileURL the file URL
-     * @return true, if successful
-     * @throws MalformedURLException the malformed URL exception
+     * @param fileURL URL do ficheiro.
+     * @return true, se o ficheiro for guardado na diretoria com sucesso.
      */
-    public boolean uploadFileUsingURL(String fileURL) throws MalformedURLException {
-
+    public boolean uploadFileUsingURL(String fileURL) {
         RestTemplate rest = new RestTemplate();
         ResponseEntity<byte[]> response = rest.exchange(fileURL, HttpMethod.GET, null, byte[].class);
         byte[] fileBytes = response.getBody();
 
-        String contentType = "";
-        URL url = new URL(fileURL);
-        String originalFileName = Paths.get(url.getPath()).getFileName().toString();
-
-        if (originalFileName.contains("csv")) {
-            contentType = "csv";
-        } else if (originalFileName.contains("json")) {
-            contentType = "json";
-        }
-
+        URL url;
         try {
-            MultipartFile result = new MockMultipartFile(originalFileName, originalFileName, contentType, fileBytes);
-            this.uploadFile(result);
-
-        } catch (Exception e) {
+            url = new URL(fileURL);
+        } catch (MalformedURLException e) {
             logger.error("Erro ao obter ficheiro", e);
             return false;
         }
+        String contentType = Objects.requireNonNull(response.getHeaders().getContentType()).getType();
+        String originalFileName = Paths.get(url.getPath()).getFileName().toString();
+        MultipartFile result = new MockMultipartFile(originalFileName, originalFileName, contentType, fileBytes);
 
-        return true;
+        return this.uploadFile(result);
     }
 
     /**
-     * Gets the file.
+     * Recebe o nome do ficheiro e vai buscá-lo à diretoria correspondente à sua extensão.
      *
-     * @param name the name
-     * @return the file
+     * @param name nome do ficheiro.
+     * @return o ficheiro, caso seja encontrado. null, caso contrário.
      */
     public UrlResource getFile(String name) {
         Path searchingPath = JSON_UPLOAD_PATH;
         if (name.contains("csv"))
             searchingPath = CSV_UPLOAD_PATH;
         try (var wantedDir = Files.list(searchingPath)) {
-            var wantedFile = wantedDir.filter(f -> f.getFileName().toString().equals(name))
+            var wantedFile = wantedDir
+                    .filter(f -> f.getFileName().toString().equals(name))
                     .toList();
 
             if (!wantedFile.isEmpty())
