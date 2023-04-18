@@ -92,7 +92,7 @@ public class FileManagementService {
      * @throws IOException Signals that an I/O exception has occurred.
      */
     private void saveFile(MultipartFile file, Path destinationPath) throws IOException {
-        File destination = new File(destinationPath + "\\" + file.getOriginalFilename());
+        File destination = new File(destinationPath + "/" + file.getOriginalFilename());
         file.transferTo(destination);
     }
 
