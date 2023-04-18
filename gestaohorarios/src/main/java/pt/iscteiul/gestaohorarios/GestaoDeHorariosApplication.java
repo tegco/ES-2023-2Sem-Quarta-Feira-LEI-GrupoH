@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * Classe que executa a aplicação através do método {@link #main() Main}
+ * Classe que executa a aplicação através do método main()
  * 
  * 
  * @author gabriel-bitrefill
@@ -12,10 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class GestaoDeHorariosApplication {
-	/**
-	 *
-	 * @param args 
-	 */
 	public static void main(String[] args) {
 		SpringApplication.run(GestaoDeHorariosApplication.class, args);
 	}
