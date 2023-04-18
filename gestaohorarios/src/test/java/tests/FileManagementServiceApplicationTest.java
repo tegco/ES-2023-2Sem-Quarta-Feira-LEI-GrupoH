@@ -21,6 +21,17 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import pt.iscteiul.gestaohorarios.service.FileManagementService;
 
+
+/**
+ * Classe de testes para a classe FileManagementService.
+ * 
+ * 
+ * @author jplemos5
+ * @author malca1-iscte
+ * @author gabriel-bitrefill
+ * 
+ * @since 2023-4-18
+ */
 class FileManagementServiceApplicationTest {
 	@BeforeEach
 	void setUp() throws Exception {

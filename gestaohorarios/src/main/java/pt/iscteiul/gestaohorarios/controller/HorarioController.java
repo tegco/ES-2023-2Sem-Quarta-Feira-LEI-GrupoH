@@ -1,7 +1,5 @@
 package pt.iscteiul.gestaohorarios.controller;
 
-import java.net.MalformedURLException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;

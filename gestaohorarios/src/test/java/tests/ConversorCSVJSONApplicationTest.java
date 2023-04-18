@@ -21,6 +21,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pt.iscteiul.gestaohorarios.model.*;
 import pt.iscteiul.gestaohorarios.service.ConversorCSVJSON;
 
+/**
+ * Classe de testes para a classe ConversorCSVJSON.
+ * 
+ * 
+ * @author jplemos5
+ * @author malca1-iscte
+ * @author gabriel-bitrefill
+ * 
+ * @since 2023-4-18
+ */
 class ConversorCSVJSONApplicationTest {
 
 	@Autowired

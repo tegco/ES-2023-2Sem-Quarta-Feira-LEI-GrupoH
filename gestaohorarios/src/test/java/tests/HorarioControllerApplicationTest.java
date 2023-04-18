@@ -19,6 +19,16 @@ import org.springframework.web.server.ResponseStatusException;
 import pt.iscteiul.gestaohorarios.controller.HorarioController;
 import pt.iscteiul.gestaohorarios.service.FileManagementService;
 
+/**
+ * Classe de testes para a classe HorarioController.
+ * 
+ * 
+ * @author jplemos5
+ * @author malca1-iscte
+ * @author gabriel-bitrefill
+ * 
+ * @since 2023-4-18
+ */
 class HorarioControllerApplicationTest {
 	
 	HorarioController controller;
