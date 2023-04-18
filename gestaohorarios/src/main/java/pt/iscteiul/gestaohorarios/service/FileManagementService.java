@@ -26,7 +26,7 @@ import java.util.Objects;
 @Service
 public class FileManagementService {
     @Autowired
-    private ConversorCSVJSON conversorCSVJSON;
+    private ConversorCSVJSON conversorCSVJSON = new ConversorCSVJSON();
     public static final Path CSV_UPLOAD_PATH = Path.of(System.getProperty("user.dir") + "/data/horarios/csv/");
     public static final Path JSON_UPLOAD_PATH = Path.of(System.getProperty("user.dir") + "/data/horarios/json/");
     Logger logger = LoggerFactory.getLogger(FileManagementService.class);

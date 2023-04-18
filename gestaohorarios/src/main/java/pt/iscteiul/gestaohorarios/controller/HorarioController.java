@@ -17,8 +17,13 @@ import pt.iscteiul.gestaohorarios.service.FileManagementService;
 @RestController
 public class HorarioController {
 
-    @Autowired
-    private FileManagementService fileManagementService;
+	@Autowired
+	    private FileManagementService fileManagementService;
+	
+	public HorarioController(FileManagementService file){
+		this.fileManagementService = file;
+	}
+	 	
 
     @PostMapping("/uploadFile")
     public ResponseEntity<String> uploadFicheiro(@RequestParam("file") MultipartFile file) {
