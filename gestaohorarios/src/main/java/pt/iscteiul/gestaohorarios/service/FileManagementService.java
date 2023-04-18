@@ -22,25 +22,31 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class FileManagementService.
  */
 @Service
 public class FileManagementService {
-    
-    /** The conversor CSVJSON. */
+
+    /**
+     * The conversor CSVJSON.
+     */
     @Autowired
     private ConversorCSVJSON conversorCSVJSON = new ConversorCSVJSON();
-    
-    /** The Constant CSV_UPLOAD_PATH. */
+
+    /**
+     * The Constant CSV_UPLOAD_PATH.
+     */
     public static final Path CSV_UPLOAD_PATH = Path.of(System.getProperty("user.dir") + "/data/horarios/csv/");
-    
-    /** The Constant JSON_UPLOAD_PATH. */
+
+    /**
+     * The Constant JSON_UPLOAD_PATH.
+     */
     public static final Path JSON_UPLOAD_PATH = Path.of(System.getProperty("user.dir") + "/data/horarios/json/");
-    
-    /** The logger. */
+
+    /**
+     * Standard SpringBoot application logger.
+     */
     Logger logger = LoggerFactory.getLogger(FileManagementService.class);
 
     /**
@@ -55,19 +61,18 @@ public class FileManagementService {
         try {
             if (Objects.requireNonNull(originalFileName).contains("csv")) {
                 destinationPath = CSV_UPLOAD_PATH;
-
                 saveFile(file, destinationPath);
-
                 //Fazer a conversão para JSON
                 List<Horario> horario = conversorCSVJSON.lerCSV(originalFileName);
                 conversorCSVJSON.gerarArquivoJSON(horario, originalFileName.split("[.]")[0] + ".json");
 
-            } else {
+            } else if (Objects.requireNonNull(originalFileName).contains("json")) {
                 saveFile(file, destinationPath);
-
                 //Fazer a conversão para CSV
                 List<Horario> horario = conversorCSVJSON.lerJSON(originalFileName);
                 conversorCSVJSON.gerarArquivoCSV(horario, originalFileName.split("[.]")[0] + ".csv");
+            } else {
+                return false;
             }
         } catch (IOException e) {
             logger.error("Erro ao guardar o ficheiro", e);
@@ -79,7 +84,7 @@ public class FileManagementService {
     /**
      * Save file.
      *
-     * @param file the file
+     * @param file            the file
      * @param destinationPath the destination path
      * @throws IOException Signals that an I/O exception has occurred.
      */
@@ -104,7 +109,6 @@ public class FileManagementService {
         String contentType = "";
         URL url = new URL(fileURL);
         String originalFileName = Paths.get(url.getPath()).getFileName().toString();
-        System.out.println("Nome do ficheiro: " + originalFileName);
 
         if (originalFileName.contains("csv")) {
             contentType = "csv";
@@ -117,8 +121,7 @@ public class FileManagementService {
             this.uploadFile(result);
 
         } catch (Exception e) {
-            System.err.println("Erro ao obter ficheiro");
-            e.printStackTrace();
+            logger.error("Erro ao obter ficheiro", e);
             return false;
         }
 
