@@ -59,7 +59,7 @@ public class FileManagementService {
     }
 
     private void saveFile(MultipartFile file, Path destinationPath) throws IOException {
-        File destination = new File(destinationPath + "\\" + file.getOriginalFilename());
+        File destination = new File(destinationPath + "/" + file.getOriginalFilename());
         file.transferTo(destination);
     }
 
