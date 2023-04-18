@@ -9,6 +9,7 @@ import java.io.IOException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 
@@ -69,17 +70,17 @@ class HorarioControllerApplicationTest {
     //TODO
     }
     
-//    @Test
-//    void getCSVFileTest() throws IOException {
-//    	ResponseEntity<?> goodResponse = controller.getCSVFile("horario-exemplo-professor.csv");
-//    	ResponseEntity<?> badResponse = controller.getCSVFile("NaoExiste.csv");
-//    	
-//    	assertEquals(HttpStatus.OK,goodResponse.getStatusCode());
-//    	assertEquals(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE),goodResponse.getHeaders().getContentType());
-//    	
-//    	assertEquals(HttpStatus.NOT_FOUND,badResponse.getStatusCode());
-//    	assertEquals("File not found",badResponse.getBody());
-//    
-//    }
+    @Test
+    void getCSVFileTest() throws IOException {
+    	ResponseEntity<?> goodResponse = controller.getCSVFile("horario-exemplo-professor.csv");
+    	ResponseEntity<?> badResponse = controller.getCSVFile("NaoExiste.csv");
+    	
+    	assertEquals(HttpStatus.OK,goodResponse.getStatusCode());
+    	assertEquals(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE),goodResponse.getHeaders().getContentType());
+    	
+    	assertEquals(HttpStatus.NOT_FOUND,badResponse.getStatusCode());
+    	assertEquals("File not found",badResponse.getBody());
+    
+    }
     
 }
