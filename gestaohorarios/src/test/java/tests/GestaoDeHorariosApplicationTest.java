@@ -1,4 +1,4 @@
-package pt.iscteiul.gestaohorarios;
+package tests;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

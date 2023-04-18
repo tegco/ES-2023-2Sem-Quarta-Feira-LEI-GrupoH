@@ -1,4 +1,4 @@
-package pt.iscteiul.gestaohorarios.service;
+package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +19,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pt.iscteiul.gestaohorarios.model.*;
+import pt.iscteiul.gestaohorarios.service.ConversorCSVJSON;
 
 class ConversorCSVJSONApplicationTest {
 

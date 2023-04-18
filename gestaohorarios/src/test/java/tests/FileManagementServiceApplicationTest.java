@@ -1,4 +1,4 @@
-package pt.iscteiul.gestaohorarios.service;
+package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +18,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.UrlResource;
 import org.springframework.mock.web.MockMultipartFile;
+
+import pt.iscteiul.gestaohorarios.service.FileManagementService;
 
 class FileManagementServiceApplicationTest {
 	@BeforeEach

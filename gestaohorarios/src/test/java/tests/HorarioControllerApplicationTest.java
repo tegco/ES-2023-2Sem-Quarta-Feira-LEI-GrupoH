@@ -1,4 +1,4 @@
-package pt.iscteiul.gestaohorarios.controller;
+package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import pt.iscteiul.gestaohorarios.controller.HorarioController;
 import pt.iscteiul.gestaohorarios.service.FileManagementService;
 
 class HorarioControllerApplicationTest {
