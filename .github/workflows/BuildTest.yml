@@ -28,8 +28,6 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file gestaohorarios/pom.xml
+      run: mvn -B test --file gestaohorarios/pom.xml
     - name: javadoc with Maven
-      run: mvn -B package --file gestaohorarios/pom.xml
-    - name: Run Junit tests
-      run: mvn -B test -Dtest=gestaohorarios/src/test/java/tests/AllTests.java --file gestaohorarios/pom.xml
+      run: mvn -B javadoc:javadoc --file gestaohorarios/pom.xml
