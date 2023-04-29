@@ -1,3 +1,4 @@
+import React from 'react';
 import TestCommunication from './components/TestCommunication';
 import FileUpload from './components/FileUpload';
 import UrlUpload from './components/UrlUpload';
