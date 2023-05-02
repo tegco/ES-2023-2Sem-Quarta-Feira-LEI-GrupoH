@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const FileDownloadComponent = () => {
+const FileDownload = () => {
   const [fileName, setFileName] = useState("");
 
   const handleDownload = async () => {
@@ -26,6 +26,7 @@ const FileDownloadComponent = () => {
 
   return (
     <div>
+      <h1>Guardar ficheiros</h1>
       <input
         type="text"
         placeholder="Enter file name"
@@ -37,4 +38,4 @@ const FileDownloadComponent = () => {
   );
 };
 
-export default FileDownloadComponent;
+export default FileDownload;

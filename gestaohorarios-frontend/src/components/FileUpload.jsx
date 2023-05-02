@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
+import CalendarContext from './CalendarContext';
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
+  const { processCSVData } = useContext(CalendarContext);
 
   const handleChange = (e) => {
     setFile(e.target.files[0]);
@@ -41,8 +43,14 @@ const FileUpload = () => {
       }
     };
 
+    const handleUpdateCalendar = () => {
+      const csvData = '';
+      processCSVData(csvData);
+    };
+
   return (
     <div>
+      <h1>Carregar Arquivo</h1>
       <Input
         type="file"
         onChange={handleChange}
@@ -52,6 +60,9 @@ const FileUpload = () => {
       <Button variant="contained" color="primary" onClick={handleUpload}>
         Enviar
       </Button>
+      {file && <Button variant="contained" color="secondary" onClick={handleUpdateCalendar}>
+        Mostrar no Calendário
+      </Button>}
     </div>
   );
 };
