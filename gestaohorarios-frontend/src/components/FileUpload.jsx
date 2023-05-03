@@ -20,6 +20,7 @@ const FileUpload = (props) => {
     setFile(selectedFile);
     console.log('handleChange: ' + selectedFile);
     await processFile(selectedFile, setTempEvents);
+    console.log("Temporary events " + tempEvents);
   };
 
 
