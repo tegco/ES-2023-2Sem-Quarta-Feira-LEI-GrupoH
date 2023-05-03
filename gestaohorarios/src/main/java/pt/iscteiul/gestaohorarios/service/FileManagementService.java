@@ -119,7 +119,7 @@ public class FileManagementService {
         String originalFileName = Paths.get(url.getPath()).getFileName().toString();
         MultipartFile result = new MockMultipartFile(originalFileName, originalFileName, contentType, fileBytes);
         // Se o resultado for negativo, retornar null
-        if(this.uploadFile(result))
+        if(!this.uploadFile(result))
             return null;
 
         return originalFileName;
