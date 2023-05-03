@@ -5,9 +5,11 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@fullcalendar/core": "^6.1.6",
     "@fullcalendar/daygrid": "^6.1.5",
     "@fullcalendar/interaction": "^6.1.5",
     "@fullcalendar/list": "^6.1.6",
+    "@fullcalendar/multimonth": "^6.1.6",
     "@fullcalendar/react": "^6.1.5",
     "@fullcalendar/timegrid": "^6.1.5",
     "@mui/material": "^5.11.16",
@@ -27,6 +29,7 @@
   "scripts": {
     "start": "nodemon --exec \"npm run start-original\"",
     "start-original": "react-scripts start",
+    "debug": "nodemon --inspect-brk --exec \"npm run start-original\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

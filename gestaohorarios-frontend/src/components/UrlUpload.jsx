@@ -7,6 +7,18 @@ const UrlUpload = () => {
 
   const handleUrlChange = (e) => {
     setUrl(e.target.value);
+    getFileFromURL(e.target.value);
+  };
+
+  const getFileFromURL = async (url) => {
+    try {
+      const response = await fetch(url);
+      const data = await response.text();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error('Erro ao obter o arquivo', error);
+    }
   };
 
   const handleUrlUpload = async () => {
@@ -26,9 +38,6 @@ const UrlUpload = () => {
       });
 
       const data = await response.text();
-      console.log('-----------------');
-      console.log(response);
-      console.log('-----------------');
       if (response.ok) {
           console.log(data);
           alert(data);
@@ -44,7 +53,7 @@ const UrlUpload = () => {
 
   return (
     <div>
-      <h1>Enviar URL</h1>
+      <h1>URL Upload</h1>
       <TextField
         label="URL"
         variant="outlined"
@@ -54,7 +63,7 @@ const UrlUpload = () => {
         style={{ marginBottom: '1rem' }}
       />
       <Button variant="contained" color="secondary" onClick={handleUrlUpload}>
-        Enviar URL
+        Send
       </Button>
     </div>
   );

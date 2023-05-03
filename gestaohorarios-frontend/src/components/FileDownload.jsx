@@ -26,14 +26,14 @@ const FileDownload = () => {
 
   return (
     <div>
-      <h1>Guardar ficheiros</h1>
+      <h1>Download File</h1>
       <input
         type="text"
         placeholder="Enter file name"
         value={fileName}
         onChange={(e) => setFileName(e.target.value)}
       />
-      <button onClick={handleDownload}>Download File</button>
+      <button onClick={handleDownload}>Download</button>
     </div>
   );
 };

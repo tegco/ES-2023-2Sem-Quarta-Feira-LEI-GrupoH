@@ -3,72 +3,38 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import { csvParse } from 'd3-dsv';
-import CalendarContext from './CalendarContext';
+import multiMonthPlugin from '@fullcalendar/multimonth';
 
-const Calendar = () => {
-  const [events, setEvents] = useState([]);
+const Calendar = (props) => {
 
-  // Função para processar os dados CSV e criar eventos de calendário
-  const processCSVData = (csvData) => {
-    const parsedData = [
-        { title: 'Aula de Programação', start: '2023-04-26T10:00:00', end: '2023-04-26T11:30:00' }
-    ] //csvParse(csvData)
-    const calendarEvents = parsedData.map((event) => {
-      return {
-        title: event['title'],
-        start: event['start'],
-        end: event['end'],
-      };
-    });
-
-    setEvents(calendarEvents);
-  };
-
-  const contextValue = {
-    processCSVData,
-  };
-
-  // Função para buscar os dados CSV do backend
-  /*const fetchCSVData = async () => {
-    try {
-      const response = await fetch('api/' + FILE);
-      const csvData = await response.text();
-      const parsedData = csvParse(csvData);
-
-      processCSVData(parsedData);
-    } catch (error) {
-      console.error('Error fetching CSV data:', error);
-    }
-  };*/
+    const { events, setEvents } = props;
 
   // Carrega os dados do CSV ao carregar o componente
-  useEffect(() => {
-    processCSVData();
-  }, []);
+  /*useEffect(() => {
+    processData();
+  }, []);*/
 
   return (
-    <CalendarContext.Provider value={contextValue}>
         <div style={{ padding: '2rem' }}>
         <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
+            plugins={[dayGridPlugin, timeGridPlugin, listPlugin, multiMonthPlugin]}
             headerToolbar={{
                 left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek,multiMonthYear',
             }}
             buttonText={{
-                today: 'Hoje',
-                month: 'Mês',
-                week: 'Semana',
                 day: 'Dia',
+                week: 'Semana',
+                month: 'Mês',
+                today: 'Hoje',
                 list: 'Lista',
+                multiMonthYear: 'Ano',
             }}
             initialView="dayGridMonth"
             events={events}
             />
         </div>
-    </CalendarContext.Provider>
   );
 };
 

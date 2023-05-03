@@ -1,15 +1,26 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
-import CalendarContext from './CalendarContext';
+import { csvParse } from 'd3-dsv';
 
-const FileUpload = () => {
+const FileUpload = (props) => {
+
+  const { events, setEvents, tempEvents, setTempEvents, setFileName } = props;
+
   const [file, setFile] = useState(null);
-  const { processCSVData } = useContext(CalendarContext);
 
-  const handleChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleChange = async (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFileName(selectedFile.name);
+    } else {
+      setFileName('');
+    }
+    setFile(selectedFile);
+    console.log('handleChange: ' + selectedFile);
+    await processFile(selectedFile);
   };
+
 
   const handleUpload = async () => {
     if (!file) return;
@@ -43,26 +54,19 @@ const FileUpload = () => {
       }
     };
 
-    const handleUpdateCalendar = () => {
-      const csvData = '';
-      processCSVData(csvData);
-    };
+  
 
   return (
     <div>
-      <h1>Carregar Arquivo</h1>
+      <h1>File Upload</h1>
       <Input
         type="file"
         onChange={handleChange}
         inputProps={{ accept: '.csv,.json' }}
-        style={{ marginBottom: '1rem' }}
       />
       <Button variant="contained" color="primary" onClick={handleUpload}>
-        Enviar
+        Send
       </Button>
-      {file && <Button variant="contained" color="secondary" onClick={handleUpdateCalendar}>
-        Mostrar no Calendário
-      </Button>}
     </div>
   );
 };
