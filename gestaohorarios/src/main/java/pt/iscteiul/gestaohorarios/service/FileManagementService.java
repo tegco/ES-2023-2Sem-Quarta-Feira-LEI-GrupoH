@@ -103,7 +103,7 @@ public class FileManagementService {
      * @param fileURL URL do ficheiro.
      * @return true, se o ficheiro for guardado na diretoria com sucesso.
      */
-    public boolean uploadFileUsingURL(String fileURL) {
+    public String uploadFileUsingURL(String fileURL) {
         RestTemplate rest = new RestTemplate();
         ResponseEntity<byte[]> response = rest.exchange(fileURL, HttpMethod.GET, null, byte[].class);
         byte[] fileBytes = response.getBody();
@@ -113,13 +113,16 @@ public class FileManagementService {
             url = new URL(fileURL);
         } catch (MalformedURLException e) {
             logger.error("Erro ao obter ficheiro", e);
-            return false;
+            return null;
         }
         String contentType = Objects.requireNonNull(response.getHeaders().getContentType()).getType();
         String originalFileName = Paths.get(url.getPath()).getFileName().toString();
         MultipartFile result = new MockMultipartFile(originalFileName, originalFileName, contentType, fileBytes);
+        // Se o resultado for negativo, retornar null
+        if(this.uploadFile(result))
+            return null;
 
-        return this.uploadFile(result);
+        return originalFileName;
     }
 
     /**
