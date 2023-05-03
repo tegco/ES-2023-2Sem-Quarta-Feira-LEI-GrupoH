@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import { csvParse } from 'd3-dsv';
+import { processFile } from '../utils/fileProcessing';
 
 const FileUpload = (props) => {
 
@@ -18,7 +19,7 @@ const FileUpload = (props) => {
     }
     setFile(selectedFile);
     console.log('handleChange: ' + selectedFile);
-    await processFile(selectedFile);
+    await processFile(selectedFile, setTempEvents);
   };
 
 
@@ -53,8 +54,6 @@ const FileUpload = (props) => {
         alert('Erro ao enviar o arquivo');
       }
     };
-
-  
 
   return (
     <div>

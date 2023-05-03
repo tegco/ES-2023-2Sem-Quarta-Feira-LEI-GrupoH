@@ -1,25 +1,47 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { processFile } from '../utils/fileProcessing';
 
-const UrlUpload = () => {
+const UrlUpload = ({ setFileName, setTempEvents }) => {
   const [url, setUrl] = useState('');
 
-  const handleUrlChange = (e) => {
+  const handleUrlChange = async (e) => {
     setUrl(e.target.value);
-    getFileFromURL(e.target.value);
+    setFileName(getFilenameFromUrl(e.target.value));
+    const file = await getFileFromURL(e.target.value);
+    processFile(file, setTempEvents);
   };
 
   const getFileFromURL = async (url) => {
     try {
       const response = await fetch(url);
       const data = await response.text();
-      console.log(data);
-      return data;
+      const filename = getFilenameFromUrl(url);
+      if (filename.split('.')[1] === 'json') {
+        return new File([data], filename, { type: 'application/json' });
+      } else if (filename.split('.')[1] === 'csv') {
+        console.log('getFileFromURL: ' + filename);
+        return new File([data], filename, { type: 'text/csv' });
+      } else {
+        console.error('Invalid URL: File should be a JSON or CSV file.');
+        return null;
+      }
     } catch (error) {
-      console.error('Erro ao obter o arquivo', error);
+      console.error('Error fetching the file', error);
     }
   };
+
+  const getFilenameFromUrl = (url) => {
+    const parts = url.split('/');
+    const filename = parts[parts.length - 1];
+    if (filename.endsWith('.csv') || filename.endsWith('.json')) {
+      return filename;
+    } else {
+      console.error('Invalid URL: File should be a JSON or CSV file.');
+      return null;
+    }
+  }
 
   const handleUrlUpload = async () => {
     if (!url) return;

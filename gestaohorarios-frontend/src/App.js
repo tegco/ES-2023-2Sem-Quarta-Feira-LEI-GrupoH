@@ -26,7 +26,7 @@ function App() {
           <FileUpload events={events} setEvents={setEvents} tempEvents={tempEvents} setTempEvents={setTempEvents} setFileName={setFileName} />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <UrlUpload />
+          <UrlUpload setFileName={setFileName} setTempEvents={setTempEvents} />
         </Grid>
         <Grid item xs={12} sm={4}>
           <FileDownload />

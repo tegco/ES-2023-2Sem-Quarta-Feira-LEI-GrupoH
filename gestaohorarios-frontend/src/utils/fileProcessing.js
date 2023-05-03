@@ -25,22 +25,23 @@ reader.onload = async (event) => {
     }
 
     const calendarEvents = parsedData.map((event) => {
-    return {
-        title: event['Unidade Curricular'],
-        start: convertDateFormat(event['Data da aula']) + 'T' + event['Hora início da aula'],
-        end: convertDateFormat(event['Data da aula']) + 'T' + event['Hora fim da aula'],
-        extendedProps: {
-        curso: event['Curso'],
-        turno: event['Turno'],
-        turma: event['Turma'],
-        inscritos: event['Inscritos no turno'],
-        diaSemana: event['Dia da semana'],
-        dataAula: event['Data da aula'],
-        sala: event['Sala atribuída à aula'],
-        lotacao: event['Lotação da sala'],
-        },
-    };
-    });
+        if (event['Data da aula'] === undefined || event['Hora início da aula'] === undefined || event['Hora fim da aula'] === undefined) return null;
+        return {
+            title: event['Unidade Curricular'],
+            start: convertDateFormat(event['Data da aula']) + 'T' + event['Hora início da aula'],
+            end: convertDateFormat(event['Data da aula']) + 'T' + event['Hora fim da aula'],
+            extendedProps: {
+            curso: event['Curso'],
+            turno: event['Turno'],
+            turma: event['Turma'],
+            inscritos: event['Inscritos no turno'],
+            diaSemana: event['Dia da semana'],
+            dataAula: event['Data da aula'],
+            sala: event['Sala atribuída à aula'],
+            lotacao: event['Lotação da sala'],
+            },
+        };
+    }).filter((event) => event !== null);
 
     setTempEvents(calendarEvents);
 };
