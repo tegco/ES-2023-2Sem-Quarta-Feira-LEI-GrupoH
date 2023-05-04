@@ -1,22 +1,46 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { processFile } from '../utils/fileProcessing';
+import { getFilenameFromUrl } from '../utils/fileProcessing';
 
-const UrlUpload = () => {
+const UrlUpload = ({ setFileName, setTempEvents }) => {
   const [url, setUrl] = useState('');
 
-  const handleUrlChange = (e) => {
+  const handleUrlChange = async (e) => {
     setUrl(e.target.value);
+    setFileName(getFilenameFromUrl(e.target.value));
+    const file = await getFileFromURL(e.target.value);
+    await processFile(file, setTempEvents);
+  };
+
+  const getFileFromURL = async (url) => {
+    try {
+      const response = await fetch(url);
+      const data = await response.text();
+      const filename = getFilenameFromUrl(url);
+      if (filename.split('.')[1] === 'json') {
+        return new File([data], filename, { type: 'application/json' });
+      } else if (filename.split('.')[1] === 'csv') {
+        console.log('getFileFromURL: ' + filename);
+        return new File([data], filename, { type: 'text/csv' });
+      } else {
+        console.error('Invalid URL: File should be a JSON or CSV file.');
+        return null;
+      }
+    } catch (error) {
+      console.error('Error fetching the file', error);
+    }
   };
 
   const handleUrlUpload = async () => {
     if (!url) return;
 
-    // Altere a URL do endpoint para corresponder à sua API
     const endpointURL = '/api/v1/horario/uploadUrl';
 
     try {
-      // Envie a URL usando fetch
       const response = await fetch(endpointURL, {
         method: 'POST',
         headers: {
@@ -26,9 +50,6 @@ const UrlUpload = () => {
       });
 
       const data = await response.text();
-      console.log('-----------------');
-      console.log(response);
-      console.log('-----------------');
       if (response.ok) {
           console.log(data);
           alert(data);
@@ -43,7 +64,11 @@ const UrlUpload = () => {
   };
 
   return (
-    <div>
+    <Box>
+      <Typography variant="h4" component="h1" style={{ marginTop: '1rem', marginBottom: '2rem' }}>
+        URL Upload
+      </Typography>
+
       <TextField
         label="URL"
         variant="outlined"
@@ -52,10 +77,13 @@ const UrlUpload = () => {
         onChange={handleUrlChange}
         style={{ marginBottom: '1rem' }}
       />
-      <Button variant="contained" color="secondary" onClick={handleUrlUpload}>
-        Enviar URL
-      </Button>
-    </div>
+
+      <Box display="flex" alignItems="center" justifyContent="center" style={{ width: '100%' }}>
+        <Button variant="contained" color="primary" onClick={handleUrlUpload}>
+          Send
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

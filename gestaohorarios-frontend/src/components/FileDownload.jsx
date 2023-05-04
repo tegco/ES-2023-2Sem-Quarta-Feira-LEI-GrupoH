@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { processFile } from '../utils/fileProcessing';
 
-const FileDownloadComponent = () => {
-  const [fileName, setFileName] = useState("");
-
+const FileDownload = ({ setTempEvents, setFileName, fileName }) => {
   const handleDownload = async () => {
     try {
-      const response = await axios.get(`/api/v1/horario/downloadFile/${fileName}`, {
-        responseType: "blob", // Set response type to blob to handle binary data
-      });
+      const response = await fetch(`/api/v1/horario/downloadFile/${fileName}`);
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      if (!response.ok) {
+        console.error("Error downloading the file.");
+        alert("Error downloading the file.");
+        return;
+      }
+
+      const data = await response.text();
+      const fileType = fileName.endsWith('.json') ? 'application/json' : 'text/csv';
+
+      const file = new File([data], fileName, { type: fileType });
+      await processFile(file, setTempEvents);
+
+      const url = window.URL.createObjectURL(file);
       const link = document.createElement("a");
-      console.log(fileName)
       link.href = url;
       link.setAttribute("download", fileName);
       document.body.appendChild(link);
@@ -20,21 +31,33 @@ const FileDownloadComponent = () => {
       link.remove();
     } catch (error) {
       console.error(error);
-      // Handle error
     }
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Enter file name"
+    <Box>
+      <Typography variant="h4" component="h1" style={{ marginTop: '1rem', marginBottom: '2rem' }}>
+        File Download
+      </Typography>
+
+      <TextField
+        label="File Name"
+        variant="outlined"
+        fullWidth
         value={fileName}
         onChange={(e) => setFileName(e.target.value)}
+        inputProps={{ pattern: ".*\\.(csv|json)" }}
+        placeholder="Enter file name (e.g., file.csv)"
+        style={{ marginBottom: '1rem' }} 
       />
-      <button onClick={handleDownload}>Download File</button>
-    </div>
+
+      <Box display="flex" alignItems="center" justifyContent="center" style={{ width: '100%' }}>
+        <Button variant="contained" color="primary" onClick={handleDownload}>
+          Download
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
-export default FileDownloadComponent;
+export default FileDownload;

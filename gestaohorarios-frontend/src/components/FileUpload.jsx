@@ -1,26 +1,41 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import Typography from '@mui/material/Typography';
+import { processFile } from '../utils/fileProcessing';
 
-const FileUpload = () => {
+
+const FileUpload = (props) => {
+
+  const { tempEvents, setTempEvents, setFileName } = props;
+
   const [file, setFile] = useState(null);
 
-  const handleChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleChange = async (e) => {
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFileName(selectedFile.name);
+    } else {
+      setFileName('');
+    }
+    setFile(selectedFile);
+    console.log('handleChange: ' + selectedFile);
+    await processFile(selectedFile, setTempEvents);
+    console.log("Temporary events " + tempEvents);
   };
+
 
   const handleUpload = async () => {
     if (!file) return;
 
-    // Crie uma instância FormData para armazenar o arquivo
     const formData = new FormData();
     formData.append('file', file);
 
-    // Altere a URL do endpoint para corresponder à sua API
     const endpointURL = '/api/v1/horario/uploadFile';
 
     try {
-        // Envie o arquivo usando fetch
         const response = await fetch(endpointURL, {
           method: 'POST',
           body: formData,
@@ -41,19 +56,28 @@ const FileUpload = () => {
       }
     };
 
-  return (
-    <div>
-      <Input
-        type="file"
-        onChange={handleChange}
-        inputProps={{ accept: '.csv,.json' }}
-        style={{ marginBottom: '1rem' }}
-      />
-      <Button variant="contained" color="primary" onClick={handleUpload}>
-        Enviar
-      </Button>
-    </div>
-  );
+    return (
+      <Box>
+        <Typography variant="h4" component="h1" style={{ marginTop: '1rem', marginBottom: '2rem' }}>
+          File Upload
+        </Typography>
+  
+        <InputLabel htmlFor="upload-file">Select a file to upload:</InputLabel>
+        <Input
+          type="file"
+          id="upload-file"
+          onChange={handleChange}
+          inputProps={{ accept: '.csv,.json' }}
+          style={{ marginBottom: '16px' }}
+        />
+  
+        <Box display="flex" alignItems="center" justifyContent="center" style={{ width: '100%' }}>
+          <Button variant="contained" color="primary" onClick={handleUpload}>
+            Send
+          </Button>
+        </Box>
+      </Box>
+    );
 };
 
 export default FileUpload;
