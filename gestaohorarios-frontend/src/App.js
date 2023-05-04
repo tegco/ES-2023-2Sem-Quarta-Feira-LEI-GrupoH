@@ -6,6 +6,7 @@ import Calendar from './components/Calendar';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import ShowOnCalendarButton from './components/ShowOnCalendarButton';
+import Typography from '@mui/material/Typography';
 
 function App() {
 
@@ -21,6 +22,9 @@ function App() {
 
   return (
     <Container maxWidth="lg">
+      <Typography variant="h3" component="h1" align="center" style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+        ISCTE Calendar
+      </Typography>
       <Grid container spacing={4} justifyContent="center" alignItems="center">
         <Grid item xs={12} sm={4}>
           <FileUpload events={events} setEvents={setEvents} tempEvents={tempEvents} setTempEvents={setTempEvents} setFileName={setFileName} />
