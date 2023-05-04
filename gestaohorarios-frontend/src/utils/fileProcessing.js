@@ -2,8 +2,6 @@ import { dsvFormat } from 'd3-dsv';
 
 
 export const processFile = async (file, setTempEvents) => {
-console.log('processFile: ' + file);
-
 const reader = new FileReader();
 reader.onload = async (event) => {
     const fileContent1 = event.target.result;
@@ -53,3 +51,13 @@ const convertDateFormat = (date) => {
     return `${year}-${month}-${day}`;
 }
 
+export const getFilenameFromUrl = (url) => {
+    const parts = url.split('/');
+    const filename = parts[parts.length - 1];
+    if (filename.endsWith('.csv') || filename.endsWith('.json')) {
+      return filename;
+    } else {
+      console.error('Invalid URL: File should be a JSON or CSV file.');
+      return null;
+    }
+}

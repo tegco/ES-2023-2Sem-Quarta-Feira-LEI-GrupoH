@@ -3,10 +3,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { processFile } from '../utils/fileProcessing';
 
-const FileDownload = () => {
-  const [fileName, setFileName] = useState("");
-
+const FileDownload = ({ setTempEvents, setFileName, fileName }) => {
   const handleDownload = async () => {
     try {
       const response = await fetch(`/api/v1/horario/downloadFile/${fileName}`);
@@ -17,8 +16,13 @@ const FileDownload = () => {
         return;
       }
 
-      const data = await response.blob();
-      const url = window.URL.createObjectURL(data);
+      const data = await response.text();
+      const fileType = fileName.endsWith('.json') ? 'application/json' : 'text/csv';
+
+      const file = new File([data], fileName, { type: fileType });
+      await processFile(file, setTempEvents);
+
+      const url = window.URL.createObjectURL(file);
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute("download", fileName);

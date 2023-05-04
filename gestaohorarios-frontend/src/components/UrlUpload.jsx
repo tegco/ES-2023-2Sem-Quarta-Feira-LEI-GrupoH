@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { processFile } from '../utils/fileProcessing';
+import { getFilenameFromUrl } from '../utils/fileProcessing';
 
 const UrlUpload = ({ setFileName, setTempEvents }) => {
   const [url, setUrl] = useState('');
@@ -12,7 +13,7 @@ const UrlUpload = ({ setFileName, setTempEvents }) => {
     setUrl(e.target.value);
     setFileName(getFilenameFromUrl(e.target.value));
     const file = await getFileFromURL(e.target.value);
-    processFile(file, setTempEvents);
+    await processFile(file, setTempEvents);
   };
 
   const getFileFromURL = async (url) => {
@@ -33,17 +34,6 @@ const UrlUpload = ({ setFileName, setTempEvents }) => {
       console.error('Error fetching the file', error);
     }
   };
-
-  const getFilenameFromUrl = (url) => {
-    const parts = url.split('/');
-    const filename = parts[parts.length - 1];
-    if (filename.endsWith('.csv') || filename.endsWith('.json')) {
-      return filename;
-    } else {
-      console.error('Invalid URL: File should be a JSON or CSV file.');
-      return null;
-    }
-  }
 
   const handleUrlUpload = async () => {
     if (!url) return;

@@ -33,7 +33,7 @@ function App() {
           <UrlUpload setFileName={setFileName} setTempEvents={setTempEvents} />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <FileDownload />
+          <FileDownload setTempEvents={setTempEvents} setFileName={setFileName} fileName={fileName} />
         </Grid>
       </Grid>
       <Grid container justifyContent="center" alignItems="center">
