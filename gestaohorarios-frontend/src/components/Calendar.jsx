@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -7,34 +7,31 @@ import multiMonthPlugin from '@fullcalendar/multimonth';
 
 const Calendar = (props) => {
 
-    const { events, setEvents } = props;
-
-  // Carrega os dados do CSV ao carregar o componente
-  /*useEffect(() => {
-    processData();
-  }, []);*/
+  const { events } = props;
 
   return (
-        <div style={{ padding: '2rem' }}>
+    events && events.length > 0 && (
+      <div style={{ padding: '2rem' }}>
         <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, listPlugin, multiMonthPlugin]}
-            headerToolbar={{
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek,multiMonthYear',
-            }}
-            buttonText={{
-                day: 'Dia',
-                week: 'Semana',
-                month: 'Mês',
-                today: 'Hoje',
-                list: 'Lista',
-                multiMonthYear: 'Ano',
-            }}
-            initialView="dayGridMonth"
-            events={events}
-            />
-        </div>
+          plugins={[dayGridPlugin, timeGridPlugin, listPlugin, multiMonthPlugin]}
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek,multiMonthYear',
+          }}
+          buttonText={{
+            day: 'Dia',
+            week: 'Semana',
+            month: 'Mês',
+            today: 'Hoje',
+            list: 'Lista',
+            multiMonthYear: 'Ano',
+          }}
+          initialView="dayGridMonth"
+          events={events}
+        />
+      </div>
+    )
   );
 };
 
