@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { processFile } from '../utils/fileProcessing';
 
 const UrlUpload = ({ setFileName, setTempEvents }) => {
@@ -46,11 +48,9 @@ const UrlUpload = ({ setFileName, setTempEvents }) => {
   const handleUrlUpload = async () => {
     if (!url) return;
 
-    // Altere a URL do endpoint para corresponder à sua API
     const endpointURL = '/api/v1/horario/uploadUrl';
 
     try {
-      // Envie a URL usando fetch
       const response = await fetch(endpointURL, {
         method: 'POST',
         headers: {
@@ -74,8 +74,11 @@ const UrlUpload = ({ setFileName, setTempEvents }) => {
   };
 
   return (
-    <div>
-      <h1>URL Upload</h1>
+    <Box>
+      <Typography variant="h4" component="h1" style={{ marginTop: '1rem', marginBottom: '2rem' }}>
+        URL Upload
+      </Typography>
+
       <TextField
         label="URL"
         variant="outlined"
@@ -84,10 +87,13 @@ const UrlUpload = ({ setFileName, setTempEvents }) => {
         onChange={handleUrlChange}
         style={{ marginBottom: '1rem' }}
       />
-      <Button variant="contained" color="secondary" onClick={handleUrlUpload}>
-        Send
-      </Button>
-    </div>
+
+      <Box display="flex" alignItems="center" justifyContent="center" style={{ width: '100%' }}>
+        <Button variant="contained" color="primary" onClick={handleUrlUpload}>
+          Send
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

@@ -1,10 +1,8 @@
-// ShowOnCalendarButton.js
 import React from 'react';
 import Button from '@mui/material/Button';
 
 const ShowOnCalendarButton = ({ disabled, setEvents, tempEvents, fileName }) => {
   const handleClick = () => {
-    alert('Button clicked');
     setEvents(tempEvents);
   };
 
@@ -17,12 +15,18 @@ const ShowOnCalendarButton = ({ disabled, setEvents, tempEvents, fileName }) => 
       disabled={disabled}
       sx={{
         fontWeight: 'bold',
+        fontSize: '1.25rem',
+        padding: '0.75rem 1rem',
+        marginTop: '2rem',
         '&:hover': {
           backgroundColor: '#ff8a8a',
         },
+        '&.Mui-disabled': {
+          backgroundColor: 'rgba(0, 0, 0, 0.12)',
+        },
       }}
     >
-      Show on Calendar: {fileName}
+      Show on Calendar: {fileName || 'No file selected'}
     </Button>
   );
 };

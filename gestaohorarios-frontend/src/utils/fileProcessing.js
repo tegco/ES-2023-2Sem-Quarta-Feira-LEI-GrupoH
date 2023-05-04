@@ -1,16 +1,14 @@
-import { csvParse, dsvFormat } from 'd3-dsv';
+import { dsvFormat } from 'd3-dsv';
 
 
 export const processFile = async (file, setTempEvents) => {
 console.log('processFile: ' + file);
 
-// Read the file and parse based on the format
 const reader = new FileReader();
 reader.onload = async (event) => {
     const fileContent1 = event.target.result;
     const fileContent = fileContent1.trim();
     
-    // Check the file's type (MIME type)
     const isJSON = file.type === 'application/json';
     const isCSV = file.type === 'text/csv';
     
