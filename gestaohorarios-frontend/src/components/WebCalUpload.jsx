@@ -23,12 +23,12 @@ const WebCalUpload = () => {
             
             <Box sx={{
                 width: 650,
-                maxWidth: '100%',
+                maxWidth: '95%',
             }}
             >
             <TextField
-                label="WebCal URL"
-                placeholder='Coloque o URL do seu calendário'
+                label="Web Calendar URL"
+                placeholder='Enter web calendar URL'
                 variant="outlined"
                 size="small"
                 fullWidth

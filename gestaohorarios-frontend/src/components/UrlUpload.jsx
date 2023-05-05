@@ -72,6 +72,7 @@ const UrlUpload = ({ setFileName, setTempEvents }) => {
       <TextField
         label="URL"
         variant="outlined"
+        size="small"
         fullWidth
         value={url}
         onChange={handleUrlChange}

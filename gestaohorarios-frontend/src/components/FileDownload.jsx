@@ -43,6 +43,7 @@ const FileDownload = ({ setTempEvents, setFileName, fileName }) => {
       <TextField
         label="File Name"
         variant="outlined"
+        size="small"
         fullWidth
         value={fileName}
         onChange={(e) => setFileName(e.target.value)}
