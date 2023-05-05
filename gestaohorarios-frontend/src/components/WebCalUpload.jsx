@@ -3,15 +3,18 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { processFile } from '../utils/fileProcessing';
 
-const WebCalUpload = () => {
+const WebCalUpload = (setTempEvents) => {
   const [uri, setUri] = useState('');
   console.log('Uri:', uri)
   //const [events, setEvents] = useState([]);  
  
   const handleChange = async (event) => {
     setUri(event.target.value);
+    const file = fetchCalendar(event.target.value);
     console.log('On Change:', uri)
+    await processFile(file, setTempEvents);
     //processCalendar(file);
   }
 

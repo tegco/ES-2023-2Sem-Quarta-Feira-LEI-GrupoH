@@ -1,3 +1,4 @@
+import FullCalendar from '@fullcalendar/react';
 import { dsvFormat } from 'd3-dsv';
 
 
@@ -9,16 +10,20 @@ reader.onload = async (event) => {
     
     const isJSON = file.type === 'application/json';
     const isCSV = file.type === 'text/csv';
+    const isICS = file.type === 'text/calendar';
     
     let parsedData;
 
     if (isJSON) {
     parsedData = JSON.parse(fileContent);
     } else if (isCSV) {
-        parsedData = dsvFormat(';').parse(fileContent);   
+        parsedData = dsvFormat(';').parse(fileContent); 
+    } else if (isICS) {
+        const { jCal } = FullCalendar.parse(fileContent);
+        parsedData = jCal;  
     } else {
     console.error('Unsupported file format.');
-    alert('Unsupported file format. Please upload a JSON or CSV file.');
+    alert('Unsupported file format. Please upload a JSON, CSV or ICalendar file.');
     return;
     }
 
