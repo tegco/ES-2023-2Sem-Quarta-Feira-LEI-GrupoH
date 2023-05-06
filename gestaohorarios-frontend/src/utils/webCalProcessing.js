@@ -9,10 +9,11 @@ export const processWebCal = async (file, setTempEvents) => {
 
     reader.onload = () => {
         const data = reader.result;
-        //const parsedEvents = icalParser.parseString(data);
+     
         const parsedCalendar = ical.parse(data);
         const comp = new ical.Component(parsedCalendar);
         const events = comp.getAllSubcomponents('vevent');
+
         events.forEach((event) => {
             const description = event.getFirstPropertyValue('description');
             const location = event.getFirstPropertyValue('location');
@@ -32,9 +33,7 @@ export const processWebCal = async (file, setTempEvents) => {
                 sala: sala,
                 },
             }
-
-            //console.log(evento_tratado)
-          
+            console.log(evento_tratado)
           });
        
           //setTempEvents(calendarEvents);

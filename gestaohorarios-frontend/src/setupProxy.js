@@ -34,7 +34,7 @@ module.exports = function (app) {
   app.use(bodyParser.json());
 
   const proxy = createProxyMiddleware('/icalendar', {
-    target: 'https://fenix.iscte-iul.pt',//Insert url HERE
+    target: 'https://fenix.iscte-iul.pt',
     changeOrigin: true,
     pathRewrite: {
       '^/icalendar': '',
@@ -44,12 +44,11 @@ module.exports = function (app) {
       res.status(500).send('Proxy error occurred');
     },
     onProxyReq: function (proxyReq, req, res) {
-      const targetUrl = req.query.targetUrl; // or req.headers['target-url']
-      console.log(targetUrl)
+      const targetUrl = req.query.targetUrl; 
+ 
       if (targetUrl) {
         proxyReq.path = targetUrl.replace('webcal://fenix.iscte-iul.pt', '');
         proxyReq.protocol = "https://";
-        console.log("Made this request", proxyReq.protocol + proxyReq.host + proxyReq.path);
       }
     },
     onProxyRes: function(proxyRes, req, res) {
@@ -59,7 +58,6 @@ module.exports = function (app) {
   
   app.use('/icalendar', proxy);
   
-
   server.listen(3000, () => {
     console.log('Proxy server listening on port 3000');
   });
