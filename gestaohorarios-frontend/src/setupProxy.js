@@ -1,5 +1,5 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
-const bodyParser = require('body-parser');
+const http = require('http');
 const httpProxy = require('http-proxy');
 const express = require('express');
 

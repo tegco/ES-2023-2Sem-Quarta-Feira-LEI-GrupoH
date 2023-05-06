@@ -3,8 +3,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { processWebCal } from '../utils/webCalProcessing';
-import { RRule } from 'rrule';
 
 const WebCalUpload = () => {
   const [uri, setUri] = useState('');
@@ -14,6 +12,7 @@ const WebCalUpload = () => {
   const handleChange = async (event) => {
     setUri(event.target.value);
     console.log('On Change:', uri)
+    //processCalendar(file);
   }
 
   const fetchCalendar = async (uri) => {
