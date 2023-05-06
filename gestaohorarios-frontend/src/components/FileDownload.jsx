@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { processFile } from '../utils/fileProcessing';
 
-const FileDownload = ({ setTempEvents, setFileName, fileName }) => {
+const FileDownload = (props) => {
+  
+  const { setTempEvents, setFileName, fileName, setCoursesFound, setFileContent } = props;
+  
   const handleDownload = async () => {
     try {
       const response = await fetch(`/api/v1/horario/downloadFile/${fileName}`);
@@ -20,7 +23,7 @@ const FileDownload = ({ setTempEvents, setFileName, fileName }) => {
       const fileType = fileName.endsWith('.json') ? 'application/json' : 'text/csv';
 
       const file = new File([data], fileName, { type: fileType });
-      await processFile(file, setTempEvents);
+      await processFile(file, setTempEvents, setCoursesFound, setFileContent);
 
       const url = window.URL.createObjectURL(file);
       const link = document.createElement("a");
@@ -44,7 +47,6 @@ const FileDownload = ({ setTempEvents, setFileName, fileName }) => {
         label="File Name"
         variant="outlined"
         fullWidth
-        value={fileName}
         onChange={(e) => setFileName(e.target.value)}
         inputProps={{ pattern: ".*\\.(csv|json)" }}
         placeholder="Enter file name (e.g., file.csv)"

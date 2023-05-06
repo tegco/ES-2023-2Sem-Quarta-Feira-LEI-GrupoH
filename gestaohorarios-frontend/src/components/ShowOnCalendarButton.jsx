@@ -1,7 +1,12 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 
-const ShowOnCalendarButton = ({ disabled, setEvents, tempEvents, fileName }) => {
+const ShowOnCalendarButton = (props) => {
+
+  const { setEvents, tempEvents, fileName } = props;
+
+  const shouldButtonBeDisabled = !tempEvents || tempEvents.length === 0;
+
   const handleClick = () => {
     setEvents(tempEvents);
   };
@@ -12,7 +17,7 @@ const ShowOnCalendarButton = ({ disabled, setEvents, tempEvents, fileName }) => 
       color="secondary"
       size="large"
       onClick={handleClick}
-      disabled={disabled}
+      disabled={shouldButtonBeDisabled}
       sx={{
         fontWeight: 'bold',
         fontSize: '1.25rem',
@@ -26,7 +31,7 @@ const ShowOnCalendarButton = ({ disabled, setEvents, tempEvents, fileName }) => 
         },
       }}
     >
-      Show on Calendar: {fileName || 'No file selected'}
+      Show on Calendar: {fileName || 'No file selected'} 
     </Button>
   );
 };

@@ -5,24 +5,24 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import Typography from '@mui/material/Typography';
 import { processFile } from '../utils/fileProcessing';
+import { csvFormat } from 'd3-dsv';
 
 
 const FileUpload = (props) => {
 
-  const { tempEvents, setTempEvents, setFileName } = props;
+  const { tempEvents, setTempEvents, setFileName, setCoursesFound, setFileContent, fileContent, fileName } = props;
 
   const [file, setFile] = useState(null);
 
   const handleChange = async (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFileName(selectedFile.name);
-    } else {
-      setFileName('');
-    }
+    console.log('File inserted in FileUpload: ' + selectedFile);
+
+    if (!selectedFile) return;
+
+    setFileName(selectedFile.name);
     setFile(selectedFile);
-    console.log('handleChange: ' + selectedFile);
-    await processFile(selectedFile, setTempEvents);
+    await processFile(selectedFile, setTempEvents, setCoursesFound, setFileContent);
     console.log("Temporary events " + tempEvents);
   };
 
@@ -30,8 +30,20 @@ const FileUpload = (props) => {
   const handleUpload = async () => {
     if (!file) return;
 
+    let serializedFileContent;
+    if (fileName.endsWith('.json')) {
+      serializedFileContent = JSON.stringify(fileContent);
+    } else if (fileName.endsWith('.csv')) {
+      console.log('CSV file before serialization: ' + fileContent);
+      serializedFileContent = csvFormat(fileContent);
+      console.log('CSV file after serialization: ' + serializedFileContent);
+    }
+
+    const auxFile = new File([serializedFileContent], file.name, { type: file.type });
+    setFile(auxFile);
+
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', auxFile);
 
     const endpointURL = '/api/v1/horario/uploadFile';
 
