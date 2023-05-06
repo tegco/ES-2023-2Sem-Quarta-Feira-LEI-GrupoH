@@ -34,6 +34,16 @@ const ChooseCourseButton = ({ tempEvents, coursesFound, coursesSelected, setCour
     updateFileContentWithSpecificCourses();
     updateTempEventsWithSpecificCourses();
   
+    let serializedFileContent;
+    if (fileName.endsWith('.json')) {
+      serializedFileContent = JSON.stringify(fileContent);
+    } else if (fileName.endsWith('.csv')) {
+      serializedFileContent = csvFormat(fileContent);
+    }
+  
+    const auxFile = new File([serializedFileContent], fileName, { type: "text/plain" });
+    setFile(auxFile);
+  
     setSelectedCoursesSnackbarOpen(true);
     setOpenDialog(false);
   };
