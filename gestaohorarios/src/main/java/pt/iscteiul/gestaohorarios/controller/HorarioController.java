@@ -49,7 +49,7 @@ public class HorarioController {
         if (!uploadSuccessful)
             return ResponseEntity.internalServerError().body("The server had trouble saving your file");
 
-        return ResponseEntity.ok().body("File " + file.getOriginalFilename() + " received successfully");
+        return ResponseEntity.ok().body("/api/v1/horario/downloadFile/"+ file.getOriginalFilename());
     }
 
     /**
@@ -60,13 +60,14 @@ public class HorarioController {
      * @return Resposta HTTP a reportar o sucesso (código 200) ou insucesso (código 500) da operação.
      */
     @PostMapping("/uploadUrl")
-    public ResponseEntity<String> uploadURL(@RequestBody String fileURL) {
+    public ResponseEntity<String> uploadURL(@RequestParam("file") String fileURL) {
+        String createdFileName = fileManagementService.uploadFileUsingURL(fileURL);
 
-        boolean uploadSuccessful = fileManagementService.uploadFileUsingURL(fileURL);
+        boolean uploadSuccessful = createdFileName!=null;
         if (!uploadSuccessful)
             return ResponseEntity.internalServerError().body("The server had trouble getting your file");
 
-        return ResponseEntity.ok().body("file url received successfully");
+        return ResponseEntity.ok().body("/api/v1/horario/downloadFile/" + createdFileName);
     }
 
     /**

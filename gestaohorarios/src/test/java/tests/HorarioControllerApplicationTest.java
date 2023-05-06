@@ -66,7 +66,7 @@ class HorarioControllerApplicationTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, badResponse.getStatusCode());
         
         
-        assertEquals("File " + file.getName() + " received successfully", goodResponse.getBody());
+        assertEquals("/api/v1/horario/downloadFile/horario-exemplo-professor.json", goodResponse.getBody());
         assertEquals("The server had trouble saving your file", badResponse.getBody());
     }
     
@@ -85,7 +85,7 @@ class HorarioControllerApplicationTest {
         assertEquals(HttpStatus.OK, goodResponse.getStatusCode());
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, badResponse.getStatusCode());
         
-        assertEquals("File " + file.getName() + " received successfully", goodResponse.getBody());
+        assertEquals("/api/v1/horario/downloadFile/horario-exemplo-professor.csv", goodResponse.getBody());
         assertEquals("The server had trouble saving your file", badResponse.getBody());
     }
     
@@ -95,7 +95,7 @@ class HorarioControllerApplicationTest {
     	 ResponseEntity<String> response = controller.uploadURL("https://raw.githubusercontent.com/malca1-iscte/urltest/main/urltest.csv");
     	 
     	 assertEquals(HttpStatus.OK,response.getStatusCode());
-    	 assertEquals("file url received successfully",response.getBody());
+    	 assertEquals("/api/v1/horario/downloadFile/urltest.csv",response.getBody());
     }
     
     @Test
