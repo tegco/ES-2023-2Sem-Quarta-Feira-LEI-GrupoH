@@ -19,15 +19,11 @@ const WebCalUpload = () => {
     if (!uri) {
       throw new Error('Missing URI parameter');
     }
+    let httpsUrl = uri.replace('webcal', 'https');
+    console.log('httpsUrl em fetchWebCalData:',  httpsUrl);
+    console.log('Encode :',  encodeURIComponent(httpsUrl));
 
-    const response = await fetch(`/icalendar`,{
-      timeout: 1000, 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      //body: JSON.stringify({ targetUrl: uri }),
-      });
+    const response = await fetch(`/icalendar?targetUrl=${encodeURIComponent(httpsUrl)}`);
       
       if (!response.ok) {
         throw new Error(`Error fetching the file: ${response.statusText}`);

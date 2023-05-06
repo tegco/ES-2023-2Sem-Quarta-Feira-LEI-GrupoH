@@ -34,7 +34,7 @@ module.exports = function (app) {
   app.use(bodyParser.json());
 
   const proxy = createProxyMiddleware('/icalendar', {
-    target: '',//Insert url HERE
+    target: 'https://fenix.iscte-iul.pt',//Insert url HERE
     changeOrigin: true,
     pathRewrite: {
       '^/icalendar': '',
@@ -44,11 +44,13 @@ module.exports = function (app) {
       res.status(500).send('Proxy error occurred');
     },
     onProxyReq: function (proxyReq, req, res) {
-      //console.log(req.body)
-      //const receivedURL = req.body.targetUrl.replace('webcal://fenix.iscte-iul.pt', '');
-      console.log(proxyReq)
-      //console.log("Made this request", proxyReq.protocol + proxyReq.host + proxyReq.path);
-
+      const targetUrl = req.query.targetUrl; // or req.headers['target-url']
+      console.log(targetUrl)
+      if (targetUrl) {
+        proxyReq.path = targetUrl.replace('webcal://fenix.iscte-iul.pt', '');
+        proxyReq.protocol = "https://";
+        console.log("Made this request", proxyReq.protocol + proxyReq.host + proxyReq.path);
+      }
     },
     onProxyRes: function(proxyRes, req, res) {
       proxyRes.headers['Access-Control-Allow-Origin'] = '*';
