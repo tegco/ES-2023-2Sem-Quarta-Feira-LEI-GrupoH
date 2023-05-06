@@ -1,8 +1,9 @@
 import React from "react";
 import ical from "ical.js";
 
-export const processWebCal = async (file, setTempEvents) => {
+export const processWebCal = async (file, setTempEvents, setFileName) => {
     console.log('File name:', file.name);
+    setFileName(file.name);
     console.log('File type:', file.type);
 
     const reader = new FileReader();
@@ -13,6 +14,8 @@ export const processWebCal = async (file, setTempEvents) => {
         const parsedCalendar = ical.parse(data);
         const comp = new ical.Component(parsedCalendar);
         const events = comp.getAllSubcomponents('vevent');
+
+        const calendarEvents = [];
 
         events.forEach((event) => {
             const description = event.getFirstPropertyValue('description');
@@ -33,10 +36,11 @@ export const processWebCal = async (file, setTempEvents) => {
                 sala: sala,
                 },
             }
+            calendarEvents.push(evento_tratado);
             console.log(evento_tratado)
           });
        
-          //setTempEvents(calendarEvents);
+        setTempEvents(calendarEvents);
     }
     reader.readAsText(file);
 }

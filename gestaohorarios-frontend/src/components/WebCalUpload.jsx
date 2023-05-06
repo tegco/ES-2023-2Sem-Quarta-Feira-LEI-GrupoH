@@ -5,7 +5,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { processWebCal } from '../utils/webCalProcessing';
 
-const WebCalUpload = () => {
+const WebCalUpload = (props) => {
+  const {setTempEvents, setFileName} = props;
   const [uri, setUri] = useState('');
   console.log('Uri:', uri)
   //const [events, setEvents] = useState([]);  
@@ -32,7 +33,7 @@ const WebCalUpload = () => {
   const handleUpload = async (event) => {
     event.preventDefault();
     const file = await fetchCalendar(uri);
-    processWebCal(file);
+    processWebCal(file, setTempEvents, setFileName);
     }
 
     return (
