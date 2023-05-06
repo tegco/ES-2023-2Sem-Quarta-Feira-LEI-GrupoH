@@ -16,17 +16,17 @@ const WebCalUpload = () => {
   }
 
   const fetchCalendar = async (uri) => {
+    if (!uri) {
+      throw new Error('Missing URI parameter');
+    }
 
-    let httpsUrl = uri.replace('webcal://fenix.iscte-iul.pt', '');
-    console.log('httpsUrl em fetchWebCalData:',  httpsUrl);
-  
-    const response = await fetch(`/icalendar`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ targetUrl: httpsUrl }),
-        timeout: 10000,
+    const response = await fetch(`/icalendar`,{
+      timeout: 1000, 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ targetUrl: uri }),
       });
       
       if (!response.ok) {
@@ -36,18 +36,6 @@ const WebCalUpload = () => {
       //console.log('DADOS DO CALENDARIO:', data );
       //return new File([data], 'calendar.ics', { type: 'text/calendar' });
     };
-
-  /* const getFilenameFromUrl = (url) => {
-    const parts = url.split('/');
-    const filename = parts[parts.length - 1];
-
-    if (filename.endsWith('.ics')) {
-    return filename;
-    } else {
-    console.error('Invalid URL: File should be an ICS file');
-    return null;
-  }
-} */
 
   const handleUpload = async (event) => {
     event.preventDefault();
