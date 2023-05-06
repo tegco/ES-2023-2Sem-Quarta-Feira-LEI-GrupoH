@@ -26,14 +26,14 @@ const WebCalUpload = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ targetUrl: uri }),
+      //body: JSON.stringify({ targetUrl: uri }),
       });
       
       if (!response.ok) {
         throw new Error(`Error fetching the file: ${response.statusText}`);
       }
       const data = await response.text()
-      //console.log('DADOS DO CALENDARIO:', data );
+      console.log('DADOS DO CALENDARIO:', data );
       //return new File([data], 'calendar.ics', { type: 'text/calendar' });
     };
 

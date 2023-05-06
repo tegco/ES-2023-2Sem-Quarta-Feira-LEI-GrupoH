@@ -34,7 +34,7 @@ module.exports = function (app) {
   app.use(bodyParser.json());
 
   const proxy = createProxyMiddleware('/icalendar', {
-    target: 'https://fenix.iscte-iul.pt',
+    target: '',//Insert url HERE
     changeOrigin: true,
     pathRewrite: {
       '^/icalendar': '',
@@ -44,26 +44,20 @@ module.exports = function (app) {
       res.status(500).send('Proxy error occurred');
     },
     onProxyReq: function (proxyReq, req, res) {
-      console.log(req.body)
-      const receivedURL = req.body.targetUrl.replace('webcal://fenix.iscte-iul.pt', '');
-      proxyReq.path=receivedURL;
-      console.log("Made this request", proxyReq.protocol + proxyReq.host + proxyReq.path);
+      //console.log(req.body)
+      //const receivedURL = req.body.targetUrl.replace('webcal://fenix.iscte-iul.pt', '');
+      console.log(proxyReq)
+      //console.log("Made this request", proxyReq.protocol + proxyReq.host + proxyReq.path);
 
     },
     onProxyRes: function(proxyRes, req, res) {
-      console.log('Response status code:', proxyRes.statusCode);
-      console.log('Response headers:', proxyRes.headers);
-      console.log('Response body:');
-      proxyRes.on('data', function(chunk) {
-        console.log(chunk.toString());
-      });
       proxyRes.headers['Access-Control-Allow-Origin'] = '*';
-
     },
   });
   
   app.use('/icalendar', proxy);
   
+
   server.listen(3000, () => {
     console.log('Proxy server listening on port 3000');
   });
