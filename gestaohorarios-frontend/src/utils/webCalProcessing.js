@@ -33,7 +33,7 @@ export const processWebCal = async (file, setTempEvents) => {
                 },
             }
 
-            console.log(evento_tratado)
+            //console.log(evento_tratado)
           
           });
        

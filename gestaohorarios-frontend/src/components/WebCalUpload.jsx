@@ -18,16 +18,16 @@ const WebCalUpload = () => {
 
   const fetchCalendar = async (uri) => {
 
-
-    const httpsUrl = uri.replace('webcal', 'https://');
-    console.log('httpsUrl em fetchWebCalData:', httpsUrl);
-    
-    const response = await fetch('/icalendar', { timeout: 10000 }, {
+    let httpsUrl = uri.replace('webcal://fenix.iscte-iul.pt', '');
+    console.log('httpsUrl em fetchWebCalData:',  httpsUrl);
+  
+    const response = await fetch(`/icalendar`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ targetUrl: httpsUrl }), 
+        body: JSON.stringify({ targetUrl: httpsUrl }),
+        timeout: 10000,
       });
       
       if (!response.ok) {
@@ -35,7 +35,7 @@ const WebCalUpload = () => {
       }
       const data = await response.text()
       //console.log('DADOS DO CALENDARIO:', data );
-      return new File([data], 'calendar.ics', { type: 'text/calendar' });
+      //return new File([data], 'calendar.ics', { type: 'text/calendar' });
     };
 
   /* const getFilenameFromUrl = (url) => {
@@ -53,7 +53,7 @@ const WebCalUpload = () => {
   const handleUpload = async (event) => {
     event.preventDefault();
     const file = await fetchCalendar(uri);
-    processWebCal(file);
+    //processWebCal(file);
     }
 
     return (
