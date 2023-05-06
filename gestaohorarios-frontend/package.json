@@ -23,10 +23,12 @@
     "d3-dsv": "^3.0.1",
     "file-saver": "^2.0.5",
     "http-proxy-middleware": "^2.0.6",
-    "moment": "^2.29.4",
+    "ical-parser": "^1.2.0",
+    "ical.js": "^1.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "rrule": "^2.7.2",
     "stream-to-blob": "^2.0.1",
     "web-vitals": "^2.1.4"
   },

@@ -3,7 +3,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { processFile } from '../utils/fileProcessing';
+import { processWebCal } from '../utils/webCalProcessing';
+import { RRule } from 'rrule';
 
 const WebCalUpload = (setTempEvents) => {
   const [uri, setUri] = useState('');
@@ -35,10 +36,9 @@ const WebCalUpload = (setTempEvents) => {
       if (!response.ok) {
         throw new Error(`Error fetching the file: ${response.statusText}`);
       }
-      
-      const data = await response.text();
-      console.log('DADOS DO CALENDARIO:', data);
-      return new File([data], { type: 'text/calendar' });
+      const data = await response.text()
+      //console.log('DADOS DO CALENDARIO:', data );
+      return new File([data], 'calendar.ics', { type: 'text/calendar' });
     };
 
   /* const getFilenameFromUrl = (url) => {
@@ -56,8 +56,7 @@ const WebCalUpload = (setTempEvents) => {
   const handleUpload = async (event) => {
     event.preventDefault();
     const file = await fetchCalendar(uri);
-    console.log('Ficheiro:', file.name)
-    //processCalendar(file);
+    processWebCal(file);
     }
 
     return (
