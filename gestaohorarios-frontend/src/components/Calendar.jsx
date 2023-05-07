@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -7,7 +7,6 @@ import interactionPlugin from '@fullcalendar/interaction';
 import multiMonthPlugin from '@fullcalendar/multimonth';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
-import convertDateFormat from '../utils/fileProcessing';
 import CalendarAlert from './CalendarAlert';
 
 const Calendar = (props) => {
@@ -99,6 +98,7 @@ const Calendar = (props) => {
         if(startEvent > start && end > endEvent){
           return event;
         }
+        return [];
       }).filter((event) => event !== undefined));
     }
   };
@@ -112,7 +112,7 @@ const Calendar = (props) => {
   const checkForOvercrowdedEvents = (events) => {
     let totalSobrelotacao = 0;
     let textoSobrelotacao = "";
-    events.map((event) =>{
+    events.map((event) => {
       const inscritos = parseInt(event.extendedProps.inscritos);
       const lotacao = parseInt(event.extendedProps.lotacao);
       const inicio = new Date(event.start);

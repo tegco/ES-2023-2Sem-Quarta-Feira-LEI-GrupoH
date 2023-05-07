@@ -44,8 +44,8 @@ const FileDownload = (props) => {
         File Download
       </Typography>
 
-      {/* <TextField
-        label="File Name"
+      <TextField
+        label="e.g. my-schedule-iscte.json"
         variant="outlined"
         size="small"
         fullWidth
@@ -53,7 +53,7 @@ const FileDownload = (props) => {
         inputProps={{ pattern: ".*\\.(csv|json)" }}
         placeholder="Enter file name (e.g., file.csv)"
         style={{ marginBottom: '1rem' }} 
-      /> */}
+      /> 
 
       <Box display="flex" alignItems="center" justifyContent="center" style={{ width: '100%' }}>
         <Button variant="contained" color="primary" onClick={() => handleDownload('json')} disabled={!fileName} sx={{margin: 1 }}>
