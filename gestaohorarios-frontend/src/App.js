@@ -5,6 +5,7 @@ import FileDownload from './components/FileDownload';
 import Calendar from './components/Calendar';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import Alert from '@mui/material/Alert';
 import ShowOnCalendarButton from './components/ShowOnCalendarButton';
 import ChooseCourseButton from './components/ChooseCourseButton';
 import Typography from '@mui/material/Typography';
@@ -117,8 +118,7 @@ function App() {
         <Grid item xs={12}>
           <Calendar events={events} setEvents={setEvents} />
         </Grid>
-      </Grid>
-      <div style={{ color: '#730000', backgroundColor: '#ff5f5f' }} id="output"></div>
+      </Grid> 
     </Container>
   );
 }
