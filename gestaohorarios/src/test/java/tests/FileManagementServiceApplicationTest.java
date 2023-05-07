@@ -92,18 +92,20 @@ class FileManagementServiceApplicationTest {
 	
 	@Test
 	void uploadFileUsingURLCSVTest() throws MalformedURLException {
-		assertFalse(Files.exists(Paths.get("data/horarios/csv/urltest.csv")));
-        boolean b = (new FileManagementService()).uploadFileUsingURL("https://raw.githubusercontent.com/malca1-iscte/urltest/main/urltest.csv");
-        assertTrue(Files.exists(Paths.get("data/horarios/csv/urltest.csv")));
-		assertTrue(b);
+		Path path = Paths.get("data/horarios/csv/urltest.csv");
+		assertFalse(Files.exists(path));
+        String originalFileName = (new FileManagementService()).uploadFileUsingURL("https://raw.githubusercontent.com/malca1-iscte/urltest/main/urltest.csv");
+        assertTrue(Files.exists(path));
+		assertEquals("urltest.csv", originalFileName);
 	}
-	
+
 	@Test
 	void uploadFileUsingURLJSONTest() throws MalformedURLException {
-		assertFalse(Files.exists(Paths.get("data/horarios/json/urltest.json")));
-        boolean b = (new FileManagementService()).uploadFileUsingURL("https://raw.githubusercontent.com/malca1-iscte/urltest/main/urltest.json");
-        assertTrue(Files.exists(Paths.get("data/horarios/json/urltest.json")));
-		assertTrue(b);
+		Path path = Paths.get("data/horarios/json/urltest.json");
+		assertFalse(Files.exists(path));
+		String originalFileName = (new FileManagementService()).uploadFileUsingURL("https://raw.githubusercontent.com/malca1-iscte/urltest/main/urltest.json");
+        assertTrue(Files.exists(path));
+		assertEquals("urltest.json", originalFileName);
 	}
 	
 	@Test

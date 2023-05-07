@@ -46,6 +46,7 @@ const FileDownload = (props) => {
       <TextField
         label="File Name"
         variant="outlined"
+        size="small"
         fullWidth
         onChange={(e) => setFileName(e.target.value)}
         inputProps={{ pattern: ".*\\.(csv|json)" }}

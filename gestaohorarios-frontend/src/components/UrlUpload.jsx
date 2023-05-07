@@ -57,6 +57,7 @@ const UrlUpload = (props) => {
       <TextField
         label="URL"
         variant="outlined"
+        size="small"
         fullWidth
         value={url}
         onChange={handleUrlChange}
