@@ -19,7 +19,7 @@
 
 ---
  
- **Funcionalidaxes não implementadas/incompletas:**
+ **Funcionalidades não implementadas/incompletas:**
  
 
  - Conseguimos implementar todas as funcinalidades.
