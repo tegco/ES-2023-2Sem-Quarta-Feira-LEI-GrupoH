@@ -9,8 +9,8 @@ import ShowOnCalendarButton from './components/ShowOnCalendarButton';
 import ChooseCourseButton from './components/ChooseCourseButton';
 import Typography from '@mui/material/Typography';
 import { displayDataInsideFileObject } from './utils/fileProcessing';
-import { csvFormat } from 'd3-dsv';
 import WebCalUpload from './components/WebCalUpload';
+import { dsvFormat } from 'd3-dsv';
 
 function App() {
 
@@ -30,7 +30,7 @@ function App() {
         serializedFileContent = JSON.stringify(fileContent);
         fileType = 'application/json';
       } else if (fileName.endsWith('.csv')) {
-        serializedFileContent = csvFormat(fileContent);
+        serializedFileContent = dsvFormat(';').format(fileContent);
         fileType = 'text/csv';
       }
   
