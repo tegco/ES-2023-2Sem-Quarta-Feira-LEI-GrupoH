@@ -8,10 +8,11 @@ import { processFile } from '../utils/fileProcessing';
 const FileDownload = (props) => {
   
   const { setTempEvents, setFileName, fileName, setCoursesFound, setFileContent } = props;
-  
-  const handleDownload = async () => {
+
+  const handleDownload = async (fileType) => {
+    let newName = fileName.split(".")[0] + "." + fileType;
     try {
-      const response = await fetch(`/api/v1/horario/downloadFile/${fileName}`);
+      const response = await fetch(`/api/v1/horario/downloadFile/${newName}`);
 
       if (!response.ok) {
         console.error("Error downloading the file.");
@@ -20,15 +21,15 @@ const FileDownload = (props) => {
       }
 
       const data = await response.text();
-      const fileType = fileName.endsWith('.json') ? 'application/json' : 'text/csv';
+      const fileType = newName.endsWith('.json') ? 'application/json' : 'text/csv';
 
-      const file = new File([data], fileName, { type: fileType });
+      const file = new File([data], newName, { type: fileType });
       await processFile(file, setTempEvents, setCoursesFound, setFileContent);
 
       const url = window.URL.createObjectURL(file);
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", fileName);
+      link.setAttribute("download", newName);
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -44,7 +45,7 @@ const FileDownload = (props) => {
       </Typography>
 
       <TextField
-        label="File Name"
+        label="e.g. my-schedule-iscte.json"
         variant="outlined"
         size="small"
         fullWidth
@@ -52,11 +53,14 @@ const FileDownload = (props) => {
         inputProps={{ pattern: ".*\\.(csv|json)" }}
         placeholder="Enter file name (e.g., file.csv)"
         style={{ marginBottom: '1rem' }} 
-      />
+      /> 
 
       <Box display="flex" alignItems="center" justifyContent="center" style={{ width: '100%' }}>
-        <Button variant="contained" color="primary" onClick={handleDownload}>
-          Download
+        <Button variant="contained" color="primary" onClick={() => handleDownload('json')} disabled={!fileName} sx={{margin: 1 }}>
+          Download JSON
+        </Button>
+        <Button variant="contained" color="primary" onClick={() => handleDownload('csv')} disabled={!fileName}>
+          Download CSV
         </Button>
       </Box>
     </Box>
