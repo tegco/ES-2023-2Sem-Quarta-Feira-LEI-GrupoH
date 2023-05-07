@@ -6,10 +6,10 @@ import Typography from '@mui/material/Typography';
 import { processWebCal } from '../utils/webCalProcessing';
 
 const WebCalUpload = (props) => {
-  const {setTempEvents, setFileName} = props;
+
+  const { setTempEvents, setFileName } = props;
+
   const [uri, setUri] = useState('');
-  console.log('Uri:', uri)
-  //const [events, setEvents] = useState([]);  
  
   const handleChange = async (event) => {
     setUri(event.target.value);

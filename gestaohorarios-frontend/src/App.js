@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import FileUpload from './components/FileUpload';
 import UrlUpload from './components/UrlUpload';
 import FileDownload from './components/FileDownload';
 import Calendar from './components/Calendar';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import Alert from '@mui/material/Alert';
 import ShowOnCalendarButton from './components/ShowOnCalendarButton';
 import ChooseCourseButton from './components/ChooseCourseButton';
 import Typography from '@mui/material/Typography';
 import { displayDataInsideFileObject } from './utils/fileProcessing';
 import WebCalUpload from './components/WebCalUpload';
 import { dsvFormat } from 'd3-dsv';
-import { red } from '@mui/material/colors';
 
 function App() {
 
@@ -58,27 +56,6 @@ function App() {
     console.log("File name: ", fileName);
     console.log("File contents: ", fileContent);
   }, [fileContent, tempEvents, events, file, fileName]);
-
-  useEffect(() => {
-    let totalSobrelotacao = 0;
-    let totalSobreposicao = 0;
-    let textoSobrelotacao = "";
-    console.log('Events changed: ', events);
-    events.map((event) =>{
-      const inscritos = parseInt(event.extendedProps.inscritos);
-      const lotacao = parseInt(event.extendedProps.lotacao);
-      const inicio = event.start;
-      const fim = event.end;
-      if(inscritos > lotacao){
-        textoSobrelotacao += event.title + " that starts at " + inicio + " and ends at " + fim + " is overcrowded! \n ";
-        totalSobrelotacao++;
-      } 
-    });
-    textoSobrelotacao += "Total of classes overcrowded: " + totalSobrelotacao;
-     if(totalSobrelotacao > 0){
-       document.getElementById('output').innerText = textoSobrelotacao;
-    }
-  }, [events]);
 
   return (
     <Container maxWidth="lg">

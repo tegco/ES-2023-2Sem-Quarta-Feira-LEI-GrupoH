@@ -10,14 +10,17 @@ import Typography from '@mui/material/Typography';
 import CalendarAlert from './CalendarAlert';
 
 const Calendar = (props) => {
+
   const { events } = props;
+
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [popoverPosition, setPopoverPosition] = useState({ left: 0, top: 0 });
   const [anchorEl, setAnchorEl] = useState(null);
-  const calendarRef = React.createRef();
   const [currentEvents, setCurrentEvents] = useState([]);
   const [overlaping, setOverlaping] = useState(null);
   const [overcrowding, setOvercrowding] = useState(null);
+  
+  const calendarRef = React.createRef();
 
   const handleEventClick = (eventClickInfo) => {
     setSelectedEvent(eventClickInfo.event);
@@ -98,7 +101,7 @@ const Calendar = (props) => {
         if(startEvent > start && end > endEvent){
           return event;
         }
-        return [];
+        return undefined
       }).filter((event) => event !== undefined));
     }
   };
@@ -120,7 +123,8 @@ const Calendar = (props) => {
       if(inscritos > lotacao){
         textoSobrelotacao += event.title + " that starts at " + stringDate(inicio) + " and ends at " + stringDate(fim) + " is overcrowded! \n";
         totalSobrelotacao++;
-      } 
+      }
+      return null;
     });
     textoSobrelotacao = "Total of classes overcrowded: " + totalSobrelotacao + "\n" + textoSobrelotacao;
     console.log("Sobrelotacao: " + totalSobrelotacao);
@@ -151,6 +155,7 @@ const Calendar = (props) => {
           totalSobreposicao++;
         }
       }
+      return null;
     });
     textoSobreposicao = "The total of classes overlaped is: " + totalSobreposicao + "\n" + textoSobreposicao;
     console.log("Sobreposicao: " + totalSobreposicao);
