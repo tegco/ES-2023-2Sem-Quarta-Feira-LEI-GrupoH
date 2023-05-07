@@ -58,7 +58,7 @@ module.exports = function (app) {
   
   app.use('/icalendar', proxy);
   
-  server.listen(3000, () => {
-    console.log('Proxy server listening on port 3000');
+  server.listen(3001, () => {
+    console.log('Proxy server listening on port 3001');
   });
 };
