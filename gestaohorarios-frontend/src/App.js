@@ -80,7 +80,7 @@ function App() {
           <FileDownload setTempEvents={setTempEvents} setFileName={setFileName} fileName={fileName} setCoursesFound={setCoursesFound} setFileContent={setFileContent} />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <WebCalUpload setTempEvents={setTempEvents} />
+          <WebCalUpload setTempEvents={setTempEvents} setFileName={setFileName}/>
         </Grid>
       </Grid>
       <Grid container justifyContent="center" alignItems="center">
