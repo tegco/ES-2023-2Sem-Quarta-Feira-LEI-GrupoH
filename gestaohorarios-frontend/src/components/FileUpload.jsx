@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
@@ -7,23 +7,19 @@ import Typography from '@mui/material/Typography';
 import { processFile } from '../utils/fileProcessing';
 
 
+
 const FileUpload = (props) => {
 
-  const { tempEvents, setTempEvents, setFileName } = props;
-
-  const [file, setFile] = useState(null);
+  const { setTempEvents, setFileName, setCoursesFound, setFileContent, file, setFile } = props;
 
   const handleChange = async (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFileName(selectedFile.name);
-    } else {
-      setFileName('');
-    }
+
+    if (!selectedFile) return;
+
+    setFileName(selectedFile.name);
     setFile(selectedFile);
-    console.log('handleChange: ' + selectedFile);
-    await processFile(selectedFile, setTempEvents);
-    console.log("Temporary events " + tempEvents);
+    await processFile(selectedFile, setTempEvents, setCoursesFound, setFileContent);
   };
 
 

@@ -5,34 +5,19 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { processFile } from '../utils/fileProcessing';
 import { getFilenameFromUrl } from '../utils/fileProcessing';
+import { getFileFromURL } from '../utils/fileProcessing';
 
-const UrlUpload = ({ setFileName, setTempEvents }) => {
+const UrlUpload = (props) => {
+
+  const { setFileName, setTempEvents, setCoursesFound, setFileContent } = props;
+
   const [url, setUrl] = useState('');
 
   const handleUrlChange = async (e) => {
     setUrl(e.target.value);
     setFileName(getFilenameFromUrl(e.target.value));
     const file = await getFileFromURL(e.target.value);
-    await processFile(file, setTempEvents);
-  };
-
-  const getFileFromURL = async (url) => {
-    try {
-      const response = await fetch(url);
-      const data = await response.text();
-      const filename = getFilenameFromUrl(url);
-      if (filename.split('.')[1] === 'json') {
-        return new File([data], filename, { type: 'application/json' });
-      } else if (filename.split('.')[1] === 'csv') {
-        console.log('getFileFromURL: ' + filename);
-        return new File([data], filename, { type: 'text/csv' });
-      } else {
-        console.error('Invalid URL: File should be a JSON or CSV file.');
-        return null;
-      }
-    } catch (error) {
-      console.error('Error fetching the file', error);
-    }
+    await processFile(file, setTempEvents, setCoursesFound, setFileContent);
   };
 
   const handleUrlUpload = async () => {

@@ -1,49 +1,59 @@
 import { dsvFormat } from 'd3-dsv';
 
+export const processFile = async (file, setTempEvents, setCoursesFound, setFileContent) => {
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+        const fileContentRaw = event.target.result;
+        const fileContent = fileContentRaw.trim(); // Remove empty lines
+        
+        const isJSON = file.type === 'application/json';
+        const isCSV = file.type === 'text/csv';
+        
+        let parsedData;
 
-export const processFile = async (file, setTempEvents) => {
-const reader = new FileReader();
-reader.onload = async (event) => {
-    const fileContent1 = event.target.result;
-    const fileContent = fileContent1.trim();
-    
-    const isJSON = file.type === 'application/json';
-    const isCSV = file.type === 'text/csv';
-    
-    let parsedData;
+        if (isJSON) {
+            parsedData = JSON.parse(fileContent);
+        } else if (isCSV) {
+            parsedData = dsvFormat(';').parse(fileContent);   
+        } else {
+            console.error('Unsupported file format.');
+            alert('Unsupported file format. Please upload a JSON or CSV file.');
+            return;
+        }
 
-    if (isJSON) {
-    parsedData = JSON.parse(fileContent);
-    } else if (isCSV) {
-        parsedData = dsvFormat(';').parse(fileContent);   
-    } else {
-    console.error('Unsupported file format.');
-    alert('Unsupported file format. Please upload a JSON or CSV file.');
-    return;
-    }
-
-    const calendarEvents = parsedData.map((event) => {
-        if (event['Data da aula'] === undefined || event['Hora início da aula'] === undefined || event['Hora fim da aula'] === undefined) return null;
+        setFileContent(parsedData);
+        
+        const calendarEvents = parsedData.map((event) => {
+            if (event['Data da aula'] === undefined || event['Hora início da aula'] === undefined || event['Hora fim da aula'] === undefined) return null;
+            
             return {
                 title: event['Unidade Curricular'],
                 start: convertDateFormat(event['Data da aula']) + 'T' + event['Hora início da aula'],
                 end: convertDateFormat(event['Data da aula']) + 'T' + event['Hora fim da aula'],
                 extendedProps: {
-                curso: event['Curso'],
-                turno: event['Turno'],
-                turma: event['Turma'],
-                inscritos: event['Inscritos no turno'],
-                diaSemana: event['Dia da semana'],
-                dataAula: event['Data da aula'],
-                sala: event['Sala atribuída à aula'],
-                lotacao: event['Lotação da sala'],
+                    curso: event['Curso'],
+                    turno: event['Turno'],
+                    turma: event['Turma'],
+                    inscritos: event['Inscritos no turno'],
+                    diaSemana: event['Dia da semana'],
+                    dataAula: event['Data da aula'],
+                    sala: event['Sala atribuída à aula'],
+                    lotacao: event['Lotação da sala'],
                 },
             };
         }).filter((event) => event !== null);
-    setTempEvents(calendarEvents);
-};
 
-reader.readAsText(file);
+        const titlesSet = new Set();
+        calendarEvents.forEach(event => {
+            titlesSet.add(event.title);
+        });
+        const titlesArray = Array.from(titlesSet);
+        setCoursesFound(titlesArray);
+        
+        setTempEvents(calendarEvents);
+    };
+
+    reader.readAsText(file);
 };
 
 const convertDateFormat = (date) => {
@@ -55,9 +65,44 @@ export const getFilenameFromUrl = (url) => {
     const parts = url.split('/');
     const filename = parts[parts.length - 1];
     if (filename.endsWith('.csv') || filename.endsWith('.json')) {
-      return filename;
+        return filename;
     } else {
-      console.error('Invalid URL: File should be a JSON or CSV file.');
-      return null;
+        console.error('Invalid URL: File should be a JSON or CSV file.');
+        return null;
     }
 }
+
+export const getFileFromURL = async (url) => {
+    try {
+        const response = await fetch(url);
+        const data = await response.text();
+        const filename = getFilenameFromUrl(url);
+        if (filename.split('.')[1] === 'json') {
+            return new File([data], filename, { type: 'application/json' });
+        } else if (filename.split('.')[1] === 'csv') {
+            console.log('getFileFromURL: ' + filename);
+            return new File([data], filename, { type: 'text/csv' });
+        } else {
+            console.error('Invalid URL: File should be a JSON or CSV file.');
+            return null;
+      }
+    } catch (error) {
+        console.error('Error fetching the file', error);
+    }
+};
+
+
+export const displayDataInsideFileObject = (inputFile, callback) => {
+    const fileReader = new FileReader();
+  
+    fileReader.onload = (event) => {
+      const fileContent = event.target.result;
+      callback(fileContent);
+    };
+  
+    fileReader.onerror = () => {
+      console.error("Error reading file");
+    };
+  
+    fileReader.readAsText(inputFile);
+};
