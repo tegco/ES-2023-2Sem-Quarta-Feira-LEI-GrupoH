@@ -18,7 +18,7 @@ function App() {
   const [tempEvents, setTempEvents] = useState([]); // This represents the events that are ready to be shown but awaits user confirmation
   const [file, setFile] = useState(null); // This represents the file that is being processed
   const [fileName, setFileName] = useState(null); // This represents the name of the file that is being processed
-  const [fileContent, setFileContent] = useState(null); // This represents the raw content of the file that is being processed (csv or json) before being parsed.
+  const [fileContent, setFileContent] = useState(null); // This represents the raw content of the file that is being processed (csv or json) after being parsed.
   const [coursesFound, setCoursesFound] = useState([]); // This represents the courses found in the file that is being processed
   const [coursesSelected, setCoursesSelected] = useState([]); // This represents the courses that the user selected to be shown on the calendar
 
@@ -74,7 +74,7 @@ function App() {
           />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <UrlUpload setFileName={setFileName} setTempEvents={setTempEvents} />
+          <UrlUpload setFileName={setFileName} setTempEvents={setTempEvents} setCoursesFound={setCoursesFound} setFileContent={setFileContent} />
         </Grid>
         <Grid item xs={12} sm={4}>
           <FileDownload setTempEvents={setTempEvents} setFileName={setFileName} fileName={fileName} setCoursesFound={setCoursesFound} setFileContent={setFileContent} />

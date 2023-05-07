@@ -1,4 +1,3 @@
-import React from "react";
 import ical from "ical.js";
 
 export const processWebCal = async (file, setTempEvents, setFileName) => {
