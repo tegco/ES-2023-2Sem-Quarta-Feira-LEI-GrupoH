@@ -82,8 +82,11 @@ const Calendar = (props) => {
           {selectedEvent.extendedProps.sala && (
             <div>Sala: {selectedEvent.extendedProps.sala}</div>
           )}
-          {selectedEvent.extendedProps.lotacao && (
+          {(selectedEvent.extendedProps.lotacao !== "" && parseInt(selectedEvent.extendedProps.lotacao) !== 0) && (
             <div>Lotação: {selectedEvent.extendedProps.lotacao}</div>
+          )}
+          {(parseInt(selectedEvent.extendedProps.lotacao) === 0 || selectedEvent.extendedProps.lotacao === "") && (
+            <div>Lotação: Indefinida</div>
           )}
         </Typography>
       </Popover>
@@ -95,14 +98,16 @@ const Calendar = (props) => {
       const calendarApi = calendarRef.current.getApi();
       const start = calendarApi.view.currentStart;
       const end = calendarApi.view.currentEnd;
+      
       setCurrentEvents(events.map((event) => {
         const startEvent = new Date(event.start.split("T")[0]);
         const endEvent = new Date(event.end.split("T")[0]);
-        if(startEvent > start && end > endEvent){
+        if(startEvent >= start && end > endEvent){
           return event;
         }
         return undefined
       }).filter((event) => event !== undefined));
+      console.log(currentEvents);
     }
   };
 
@@ -120,8 +125,8 @@ const Calendar = (props) => {
       const lotacao = parseInt(event.extendedProps.lotacao);
       const inicio = new Date(event.start);
       const fim = new Date(event.end);
-      if(inscritos > lotacao){
-        textoSobrelotacao += event.title + " that starts at " + stringDate(inicio) + " and ends at " + stringDate(fim) + " is overcrowded! \n";
+      if(lotacao !== 0 && inscritos > lotacao){
+        textoSobrelotacao += event.title + " that starts at " + inicio.toString().split("GMT")[0]  + " and ends at " + fim.toString().split("GMT")[0]  + " is overcrowded! \n";
         totalSobrelotacao++;
       }
       return null;
@@ -151,7 +156,7 @@ const Calendar = (props) => {
           (otherStartTime >= startTime && otherStartTime < endTime) || // aula 2 comeca depois do inicio da outra e comeca antes do fim 
           (otherEndTime > startTime && otherEndTime <= endTime)        // aula 2 fim depois do inicio da 1 e termina antes do fim da 1
         ) {
-          textoSobreposicao = textoSobreposicao + "The " + event.title + " class that starts at " + stringDate(startTime) + " is overlaping with the " + events[i].title + " class that starts at " + stringDate(otherStartTime) + "\n";
+          textoSobreposicao = textoSobreposicao + "The " + event.title + " class that starts at " + startTime.toString().split("GMT")[0] + " is overlaping with the " + events[i].title  + " class that starts at " + otherStartTime.toString().split("GMT")[0]  + "\n";
           totalSobreposicao++;
         }
       }
@@ -166,18 +171,6 @@ const Calendar = (props) => {
       setOverlaping("");
     }
      
-  }
-
-  function stringDate(date){
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDay();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    if(minutes === 0){
-      return year + "/" + month + "/" + day + " " + hours + ":00";
-    }
-    return year + "/" + month + "/" + day + " " + hours + ":" + minutes;
   }
   
   return (
