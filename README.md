@@ -22,5 +22,5 @@
  **Funcionalidades não implementadas/incompletas:**
  
 
- - Conseguimos implementar todas as funcinalidades.
+ - Conseguimos implementar todas as funcionalidades.
  ---
