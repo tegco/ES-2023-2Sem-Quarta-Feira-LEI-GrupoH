@@ -21,7 +21,7 @@ const WebCalUpload = (props) => {
     }
     
     let httpsUrl = uri.replace('webcal', 'https');
-    const response = await fetch(`${encodeURIComponent(httpsUrl)}`);
+    const response = await fetch(`/icalendar?targetUrl=${encodeURIComponent(httpsUrl)}`)
       
       if (!response.ok) {
         throw new Error(`Error fetching the file: ${response.statusText}`);
