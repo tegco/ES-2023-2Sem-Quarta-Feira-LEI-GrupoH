@@ -15,6 +15,7 @@ const UrlUpload = (props) => {
 
   const handleUrlChange = async (e) => {
     setUrl(e.target.value);
+    
     setFileName(getFilenameFromUrl(e.target.value));
     const file = await getFileFromURL(e.target.value);
     await processFile(file, setTempEvents, setCoursesFound, setFileContent);
