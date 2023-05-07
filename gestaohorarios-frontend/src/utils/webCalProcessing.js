@@ -33,6 +33,7 @@ export const processWebCal = async (file, setTempEvents, setFileName) => {
                 curso: undefined ,
                 turno: turno.split(': ')[1],
                 sala: sala,
+                lotacao: ""
                 },
             }
             calendarEvents.push(evento_tratado);
