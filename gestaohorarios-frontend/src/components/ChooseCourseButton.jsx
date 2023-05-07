@@ -9,11 +9,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { csvFormat } from 'd3-dsv';
 
 const ChooseCourseButton = (props) => {
 
-  const { tempEvents, coursesFound, coursesSelected, setCoursesSelected, setFileContent, fileContent, setTempEvents, fileName, setFile } = props;
+  const { tempEvents, coursesFound, coursesSelected, setCoursesSelected, setFileContent, fileContent, setTempEvents, fileName } = props;
 
   const [openDialog, setOpenDialog] = useState(false);
   const [warnToChooseCoursesSnackbarOpen, setWarnToChooseCoursesSnackbarOpen] = useState(false);
