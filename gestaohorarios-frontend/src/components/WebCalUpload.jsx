@@ -33,7 +33,7 @@ const WebCalUpload = (props) => {
   const handleUpload = async (event) => {
     event.preventDefault();
     const file = await fetchCalendar(uri);
-    processWebCal(file, setTempEvents, setFileName);
+    await processWebCal(file, setTempEvents, setFileName);
     }
 
     return (
