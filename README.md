@@ -14,7 +14,7 @@
  
  **Identificação de erros:**
  
- - List item
+ - Não existem nenhuns erros.
 
 
 ---
@@ -22,5 +22,5 @@
  **Funcionalidaxes não implementadas/incompletas:**
  
 
- - List item
+ - Conseguimos implementar todas as funcinalidades.
  ---
