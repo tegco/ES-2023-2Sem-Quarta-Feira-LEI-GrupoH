@@ -40,6 +40,7 @@ export const processFile = async (file, setTempEvents, setCoursesFound, setFileC
                     sala: event['Sala atribuída à aula'],
                     lotacao: event['Lotação da sala'],
                 },
+                color: (parseInt(event['Inscritos no turno']) > 0 && parseInt(event['Lotação da sala']) > 0 && parseInt(event['Inscritos no turno']) > parseInt(event['Lotação da sala'])) ? '#B00020' : '#1976D2',
             };
         }).filter((event) => event !== null);
 
