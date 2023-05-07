@@ -1,4 +1,4 @@
-import { dsvFormat, csvFormat } from 'd3-dsv';
+import { dsvFormat } from 'd3-dsv';
 
 export const processFile = async (file, setTempEvents, setCoursesFound, setFileContent) => {
     const reader = new FileReader();
@@ -74,19 +74,35 @@ export const getFilenameFromUrl = (url) => {
 
 export const getFileFromURL = async (url) => {
     try {
-      const response = await fetch(url);
-      const data = await response.text();
-      const filename = getFilenameFromUrl(url);
-      if (filename.split('.')[1] === 'json') {
-        return new File([data], filename, { type: 'application/json' });
-      } else if (filename.split('.')[1] === 'csv') {
-        console.log('getFileFromURL: ' + filename);
-        return new File([data], filename, { type: 'text/csv' });
-      } else {
-        console.error('Invalid URL: File should be a JSON or CSV file.');
-        return null;
+        const response = await fetch(url);
+        const data = await response.text();
+        const filename = getFilenameFromUrl(url);
+        if (filename.split('.')[1] === 'json') {
+            return new File([data], filename, { type: 'application/json' });
+        } else if (filename.split('.')[1] === 'csv') {
+            console.log('getFileFromURL: ' + filename);
+            return new File([data], filename, { type: 'text/csv' });
+        } else {
+            console.error('Invalid URL: File should be a JSON or CSV file.');
+            return null;
       }
     } catch (error) {
-      console.error('Error fetching the file', error);
+        console.error('Error fetching the file', error);
     }
-  };
+};
+
+
+export const displayDataInsideFileObject = (inputFile, callback) => {
+    const fileReader = new FileReader();
+  
+    fileReader.onload = (event) => {
+      const fileContent = event.target.result;
+      callback(fileContent);
+    };
+  
+    fileReader.onerror = () => {
+      console.error("Error reading file");
+    };
+  
+    fileReader.readAsText(inputFile);
+};

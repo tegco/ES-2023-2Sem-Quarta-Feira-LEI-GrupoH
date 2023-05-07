@@ -112,7 +112,7 @@ public class ConversorCSVJSON {
         csvMapper.enable(CsvParser.Feature.SKIP_EMPTY_LINES);
         csvMapper.registerModule(new JavaTimeModule());
 
-        CsvSchema cabecalho = csvMapper.schemaFor(Horario.class).withColumnSeparator(';').withHeader();
+        CsvSchema cabecalho = csvMapper.schemaFor(Horario.class).withColumnSeparator(',').withHeader();
         try (FileReader reader = new FileReader("data/horarios/csv/" + arquivoCSV)) {
             MappingIterator<Horario> it = csvMapper.readerFor(Horario.class).with(cabecalho).readValues(reader);
             while (it.hasNext()) {

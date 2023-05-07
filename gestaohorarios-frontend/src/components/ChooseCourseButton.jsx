@@ -9,8 +9,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { csvFormat } from 'd3-dsv';
 
-const ChooseCourseButton = ({ tempEvents, coursesFound, coursesSelected, setCoursesSelected, setFileContent, fileContent, setTempEvents, fileName }) => {
+const ChooseCourseButton = (props) => {
+
+  const { tempEvents, coursesFound, coursesSelected, setCoursesSelected, setFileContent, fileContent, setTempEvents, fileName, setFile } = props;
+
   const [openDialog, setOpenDialog] = useState(false);
   const [warnToChooseCoursesSnackbarOpen, setWarnToChooseCoursesSnackbarOpen] = useState(false);
   const [selectedCoursesSnackbarOpen, setSelectedCoursesSnackbarOpen] = useState(false);
@@ -34,35 +38,19 @@ const ChooseCourseButton = ({ tempEvents, coursesFound, coursesSelected, setCour
     updateFileContentWithSpecificCourses();
     updateTempEventsWithSpecificCourses();
   
-    let serializedFileContent;
-    if (fileName.endsWith('.json')) {
-      serializedFileContent = JSON.stringify(fileContent);
-    } else if (fileName.endsWith('.csv')) {
-      serializedFileContent = csvFormat(fileContent);
-    }
-  
-    const auxFile = new File([serializedFileContent], fileName, { type: "text/plain" });
-    setFile(auxFile);
-  
     setSelectedCoursesSnackbarOpen(true);
     setOpenDialog(false);
-  };
-
-  const handleClose = () => {
-    setOpenDialog(false);
-    console.log('Courses selected: ' + coursesSelected);
-    updateFileContentWithSpecificCourses();
-    updateTempEventsWithSpecificCourses();
-    setSelectedCoursesSnackbarOpen(true);
   };
 
   const updateFileContentWithSpecificCourses = () => {
     if (fileName.endsWith('.json')) {
-      const newFileContent = fileContent.filter((row) => coursesSelected.includes(row.Curso));
+      const newFileContent = fileContent.filter((row) => coursesSelected.includes(row['Unidade Curricular']));
       setFileContent(newFileContent);
     } else if (fileName.endsWith('.csv')) {
       console.log('fileContent before filtering:', fileContent);
-      const newFileContent = fileContent.filter((row) => coursesSelected.includes(row[0]));
+      const newFileContent = fileContent.filter((row) => coursesSelected.includes(row['Unidade Curricular']));
+      newFileContent.columns = fileContent.columns;
+      console.log('fileContent after filtering:', newFileContent);
       setFileContent(newFileContent);
     }
   };

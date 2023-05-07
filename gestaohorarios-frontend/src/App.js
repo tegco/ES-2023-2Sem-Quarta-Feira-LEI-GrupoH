@@ -8,27 +8,53 @@ import Container from '@mui/material/Container';
 import ShowOnCalendarButton from './components/ShowOnCalendarButton';
 import ChooseCourseButton from './components/ChooseCourseButton';
 import Typography from '@mui/material/Typography';
+import { displayDataInsideFileObject } from './utils/fileProcessing';
+import { csvFormat } from 'd3-dsv';
 
 function App() {
 
   const [events, setEvents] = useState([]); // This represents the events that are being shown on the calendar (formatted in a way that fullcalendar module can understand)
   const [tempEvents, setTempEvents] = useState([]); // This represents the events that are ready to be shown but awaits user confirmation
+  const [file, setFile] = useState(null); // This represents the file that is being processed
   const [fileName, setFileName] = useState(null); // This represents the name of the file that is being processed
+  const [fileContent, setFileContent] = useState(null); // This represents the raw content of the file that is being processed (csv or json) before being parsed.
   const [coursesFound, setCoursesFound] = useState([]); // This represents the courses found in the file that is being processed
   const [coursesSelected, setCoursesSelected] = useState([]); // This represents the courses that the user selected to be shown on the calendar
-  const [fileContent, setFileContent] = useState(null); // This represents the raw content of the file that is being processed (csv or json) before being parsed.
 
   useEffect(() => {
-    console.log('Events changed: ', events);
-  }, [events]);
+    const updateFileWithData = () => {
+      let serializedFileContent;
+      let fileType;
+      if (fileName.endsWith('.json')) {
+        serializedFileContent = JSON.stringify(fileContent);
+        fileType = 'application/json';
+      } else if (fileName.endsWith('.csv')) {
+        serializedFileContent = csvFormat(fileContent);
+        fileType = 'text/csv';
+      }
+  
+      const auxFile = new File([serializedFileContent], fileName, { type: fileType });
+      setFile(auxFile);
+    };
+  
+    if (fileContent && fileName) {
+      updateFileWithData();
+    }
+  }, [fileContent, fileName, setFile]);
 
   useEffect(() => {
-    console.log('Temp Events changed: ', tempEvents);
-  }, [tempEvents]);
-
-  useEffect(() => {
-    console.log('File contents changed: ', fileContent);
-  }, [fileContent, tempEvents]);
+    console.log("-----------------------------------");
+    console.log("Events: ", events);
+    console.log("Temp Events: ", tempEvents);
+    console.log("File: ", file);
+    if (file) {
+      displayDataInsideFileObject(file, (data) => {
+        console.log("Data inside File object: ", data);
+      });
+    }
+    console.log("File name: ", fileName);
+    console.log("File contents: ", fileContent);
+  }, [fileContent, tempEvents, events, file, fileName]);
 
   return (
     <Container maxWidth="lg">
@@ -37,7 +63,14 @@ function App() {
       </Typography>
       <Grid container spacing={4} justifyContent="center" alignItems="center">
         <Grid item xs={12} sm={4}>
-          <FileUpload events={events} setEvents={setEvents} tempEvents={tempEvents} setTempEvents={setTempEvents} setFileName={setFileName} setCoursesFound={setCoursesFound} setFileContent={setFileContent} fileContent={fileContent} fileName={fileName} />
+          <FileUpload 
+            events={events} setEvents={setEvents}
+            setTempEvents={setTempEvents}
+            file={file} setFile={setFile}
+            fileName={fileName} setFileName={setFileName}
+            fileContent={fileContent} setFileContent={setFileContent}
+            setCoursesFound={setCoursesFound}
+          />
         </Grid>
         <Grid item xs={12} sm={4}>
           <UrlUpload setFileName={setFileName} setTempEvents={setTempEvents} />
@@ -51,7 +84,7 @@ function App() {
           <ShowOnCalendarButton setEvents={setEvents} tempEvents={tempEvents} fileName={fileName} />
         </Grid>
         <Grid item>
-          <ChooseCourseButton tempEvents={tempEvents} coursesFound={coursesFound} coursesSelected={coursesSelected} setCoursesSelected={setCoursesSelected} setEvents={setEvents} setTempEvents={setTempEvents} fileName={fileName} />
+          <ChooseCourseButton tempEvents={tempEvents} coursesFound={coursesFound} coursesSelected={coursesSelected} setCoursesSelected={setCoursesSelected} setEvents={setEvents} setTempEvents={setTempEvents} fileName={fileName} fileContent={fileContent} setFileContent={setFileContent} setFile={setFile} />
         </Grid>
       </Grid>
       <Grid container justifyContent="center">

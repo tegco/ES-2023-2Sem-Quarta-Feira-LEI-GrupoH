@@ -1,29 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import Typography from '@mui/material/Typography';
 import { processFile } from '../utils/fileProcessing';
-import { csvFormat } from 'd3-dsv';
+
 
 
 const FileUpload = (props) => {
 
-  const { tempEvents, setTempEvents, setFileName, setCoursesFound, setFileContent, fileContent, fileName } = props;
-
-  const [file, setFile] = useState(null);
+  const { setTempEvents, setFileName, setCoursesFound, setFileContent, file, setFile } = props;
 
   const handleChange = async (e) => {
     const selectedFile = e.target.files[0];
-    console.log('File inserted in FileUpload: ' + selectedFile);
 
     if (!selectedFile) return;
 
     setFileName(selectedFile.name);
     setFile(selectedFile);
     await processFile(selectedFile, setTempEvents, setCoursesFound, setFileContent);
-    console.log("Temporary events " + tempEvents);
   };
 
 
